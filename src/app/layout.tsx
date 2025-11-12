@@ -1,9 +1,6 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'D2D - Decentralized Deployment Platform',
@@ -16,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
+    <html lang="en" className="h-full" suppressHydrationWarning>
+      <body className="min-h-screen bg-background text-foreground font-mono transition-colors duration-300" suppressHydrationWarning>
         {children}
         <Toaster position="top-right" />
       </body>

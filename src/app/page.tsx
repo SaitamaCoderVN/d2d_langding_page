@@ -1,324 +1,525 @@
-'use client';
-
-import { useState } from 'react';
-import Link from 'next/link';
-import Countdown from '@/components/Countdown';
-import toast from 'react-hot-toast';
 import Image from 'next/image';
+import Link from 'next/link';
+
+import { AnimatedButton } from '@/components/ui/animated-button'
+
+const HERO_STATS = [
+  { label: 'Monthly Fee', value: '~0.5% of rent (avg ≈ $5)' },
+  { label: 'Rent Access', value: 'Borrow up to 10+ SOL' },
+  { label: 'Backer Yield', value: '10 – 15% target APY' },
+  { label: 'Ownership Proof', value: 'Mainnet tx & upgrade keys' },
+];
+
+const FLOW_STEPS = [
+  'Connect wallet & deployed devnet program',
+  'Enter Program ID on devnet',
+  'D2D will calculate rent & fee transaction',
+  'Pay ≈ $5 for the first month & D2D deploys using backer SOL',
+  'Wait & check your program on mainnet',
+];
+
+const CAPITAL_FEATURES = [
+  {
+    title: 'Shared Rent Sponsorship',
+    description:
+      'Backers deposit SOL into lending pools so devs can borrow the rent required for mainnet deployments without tying up their own capital.',
+    cta: 'See pool mechanics',
+  },
+  {
+    title: 'Usage-based Accounting',
+    description:
+      'Every program records borrowed SOL, rent burn, and renewal windows so repayments (≈0.5% monthly) stay aligned with actual usage.',
+    cta: 'View transparency report',
+  },
+  {
+    title: '2–5% Yield Extension',
+    description:
+      'Idle SOL in the pool is delegated to conservative Solana-native strategies (validators, liquid staking) to extend runway before repayments arrive.',
+    cta: 'Review yield policy',
+  },
+];
+
+const RELIABILITY_FEATURES = [
+  {
+    title: 'Program Verification',
+    description:
+      'We compare your devnet ID, binary hash, and IDL before releasing borrowed SOL. Only verified builds make it to mainnet.',
+    cta: 'Verification checklist',
+  },
+  {
+    title: 'Explorer-linked Ownership',
+    description:
+      'Receive the transaction signature, rent account, and upgrade authority so you retain full control immediately after deploy.',
+    cta: 'Sample explorer link',
+  },
+  {
+    title: 'Continuous Monitoring',
+    description:
+      'Helius APIs and custom RPCs monitor rent balances, health checks, and renewal windows. Alerts fire before deposits dip.',
+    cta: 'Monitoring overview',
+  },
+];
+
+const ARCHITECTURE = [
+  {
+    title: 'Frontend',
+    description:
+      'React + Vite + TailwindCSS power a wallet-native dashboard that mirrors Solana builder tooling expectations.',
+  },
+  {
+    title: 'Backend',
+    description:
+      'Supabase (PostgreSQL + Edge Functions) stores deployment metadata, upgrade authorities, and audit logs. Edge functions issue webhooks post-deploy.',
+  },
+  {
+    title: 'Blockchain Layer',
+    description:
+      'Solana mainnet programs, RPC endpoints (Helius + dedicated nodes), and a rent vault program coordinate SOL lending, repayments, and renewals.',
+  },
+  {
+    title: 'Integrations',
+    description:
+      'Solana Wallet Adapter, Helius API for confirmations, optional auto-renew smart contract, and deployment history dashboards.',
+  },
+];
+
+const SDK_FEATURES = [
+  {
+    title: 'TypeScript SDK + REST API',
+    description:
+      'Register programs, upload reviewed binaries, and trigger mainnet deployments with a few lines of code.',
+  },
+  {
+    title: 'Automation Hooks',
+    description:
+      'Webhook events notify you when verification completes, rent is reserved, or renewals are due—ideal for CI/CD pipelines.',
+  },
+];
 
 export default function LandingPage() {
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to register');
-      }
-
-      toast.success('Successfully registered for early access!');
-      setEmail('');
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to register';
-      toast.error(errorMessage);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       <header className="header-sticky">
         <div className="container-main">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex h-20 items-center justify-between">
             <div className="flex items-center space-x-3">
-                <Image
-                  src="/favicon.svg"
-                  alt="D2D"
-                  width={40}
-                  height={40}
-                />
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted/60 ring-1 ring-primary/30">
+                <Image src="/favicon.svg" alt="D2D logo" width={28} height={28} priority />
+              </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">D2D</h1>
-                <p className="text-xs text-gray-500">Decentralized Deployment</p>
+                <h1 className="text-base font-semibold tracking-wide text-foreground">D2D</h1>
+                <p className="text-xs text-muted-foreground">Devnet to Deployment</p>
               </div>
             </div>
-            <nav className="flex space-x-6">
-              <Link href="/" className="text-gray-900 font-semibold">Home</Link>
-              <Link href="/docs" className="text-gray-600 hover:text-gray-900 transition">Docs</Link>
+            <nav className="hidden items-center space-x-8 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground md:flex">
+              <Link href="#problem" className="transition duration-300 focus-visible:text-primary focus-visible:outline-none">
+                Problem
+              </Link>
+              <Link href="#flow" className="transition duration-300 focus-visible:text-primary focus-visible:outline-none">
+                Solution
+              </Link>
+              <Link href="#architecture" className="transition duration-300 focus-visible:text-primary focus-visible:outline-none">
+                Architecture
+              </Link>
+              <Link href="#economics" className="transition duration-300 focus-visible:text-primary focus-visible:outline-none">
+                Economics
+              </Link>
+              <AnimatedButton
+                label="Launch App"
+                href="https://www.app.deployd2d.xyz/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[0.65rem]"
+              />
             </nav>
           </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="container-main py-20">
-        <div className="text-center max-w-4xl mx-auto">
-          <div className="inline-block px-4 py-2 bg-blue-50 rounded-full mb-6">
-            <span className="text-sm font-semibold text-[#0066FF]">🚀 Launching Soon</span>
+      <section className="relative overflow-hidden bg-background">
+        <div className="absolute inset-0">
+          <div className="absolute -left-1/3 top-0 h-96 w-96 rounded-full bg-primary/20 blur-3xl motion-safe:animate-[glow_12s_linear_infinite]" />
+          <div className="absolute right-0 top-1/3 h-72 w-72 rounded-full bg-accent/30 blur-3xl motion-safe:animate-[glow_10s_linear_infinite_reverse]" />
           </div>
-          <h1 className="text-6xl font-bold text-gray-900 mb-6">
-            Deploy Solana Programs
+        <div className="container-main relative z-10 flex flex-col gap-16 py-24 lg:flex-row lg:items-center lg:justify-between">
+          <div className="w-full max-w-2xl space-y-8 cq lg:max-w-3xl xl:max-w-4xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary shadow-[0_0_20px_rgba(0,191,255,0.35)]">
+              🧱 D2D – Devnet to Deployment
+            </span>
+            <div className="space-y-6">
+              <h2 className="hero-heading text-foreground">
+                Borrow SOL to deploy your Solana program on mainnet.
             <br />
-            <span className="text-[#0066FF]">For Just $5</span>
-          </h1>
-          <p className="text-xl text-gray-600 mb-12 leading-relaxed">
-            The first decentralized platform that lets developers deploy to mainnet
-            <br />
-            without upfront costs. Backed by a community-powered treasury.
-          </p>
-
-          {/* Countdown */}
-          <div className="mb-12">
-            <p className="text-lg font-semibold text-gray-700 mb-6">Launching In</p>
-            <Countdown />
+                <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
+                  Average cost ≈ $5/month.
+                </span>
+              </h2>
+              <p className="cq-subheading text-muted-foreground">
+                D2D connects Solana developers who need rent with backers willing to stake their SOL long term. Borrow the rent you need, pay a monthly maintenance fee, and keep shipping.
+              </p>
           </div>
-
-          {/* Early Access Form */}
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-            <div className="flex space-x-3">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                required
-                className="input-field flex-1"
-                disabled={isSubmitting}
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <AnimatedButton
+                label="Launch app"
+                href="https://www.app.deployd2d.xyz/"
+                target="_blank"
+                rel="noopener noreferrer"
               />
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="btn-primary whitespace-nowrap"
-              >
-                {isSubmitting ? 'Registering...' : 'Get Early Access'}
-              </button>
-            </div>
-            <p className="text-sm text-gray-500 mt-3">
-              Join 1,000+ developers waiting for launch
-            </p>
-          </form>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="bg-gray-50 py-20">
-        <div className="container-main">
-          <div className="text-center mb-16">
-            <h2 className="section-header">How It Works</h2>
-            <p className="section-subtitle">Three simple steps to deploy your program</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                step: '01',
-                title: 'Connect Wallet',
-                desc: 'Connect your Solana wallet and provide your devnet program ID',
-                icon: (
-                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clipRule="evenodd" />
-                  </svg>
-                ),
-              },
-              {
-                step: '02',
-                title: 'Pay $5 Service Fee',
-                desc: 'Only pay 0.025 SOL (~$5). We cover the 1.2 SOL deployment cost',
-                icon: (
-                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clipRule="evenodd" />
-                  </svg>
-                ),
-              },
-              {
-                step: '03',
-                title: 'Deploy Instantly',
-                desc: 'We automatically dump, deploy, and verify your program on mainnet',
-                icon: (
-                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                  </svg>
-                ),
-              },
-            ].map((feature, idx) => (
-              <div key={idx} className="card text-center">
-                <div className="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center text-[#0066FF] mx-auto mb-4">
-                  {feature.icon}
-                </div>
-                <div className="text-sm font-bold text-[#0066FF] mb-2">STEP {feature.step}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Backer Benefits */}
-      <section className="py-20">
-        <div className="container-main">
-          <div className="text-center mb-16">
-            <h2 className="section-header">Earn as a Backer</h2>
-            <p className="section-subtitle">Stake SOL, support developers, and earn passive income</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg text-gray-900 mb-1">10-15% APY</h3>
-                    <p className="text-gray-600">Earn consistent returns from developer service fees</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-[#0066FF]" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg text-gray-900 mb-1">LP Token Rewards</h3>
-                    <p className="text-gray-600">Farm yield based on early deposit. First backers get highest multipliers</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg text-gray-900 mb-1">Community Governed</h3>
-                    <p className="text-gray-600">Vote on platform parameters with your LP tokens</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border-2 border-[#0066FF]">
-                <div className="text-center">
-                  <p className="text-sm text-gray-600 mb-2">Example Return</p>
-                  <p className="text-3xl font-bold text-[#0066FF] mb-1">0.0034 SOL</p>
-                  <p className="text-sm text-gray-600">Per program deployed (with 5 SOL stake)</p>
-                </div>
-              </div>
+              <AnimatedButton label="View Documentation" variant="outline" href="/docs" />
             </div>
 
-            <div className="card">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">LP Token Mechanism</h3>
-              <div className="space-y-4 text-gray-600">
-                <p>
-                  <span className="font-semibold text-gray-900">Early Bird Bonus:</span> Deposit before launch and earn up to 3x LP tokens
-                </p>
-                <p>
-                  <span className="font-semibold text-gray-900">Yield Farming:</span> Stake LP tokens to earn additional rewards from protocol fees
-                </p>
-                <p>
-                  <span className="font-semibold text-gray-900">Governance Rights:</span> Vote on treasury allocation and platform upgrades
-                </p>
-                <p className="pt-4 border-t">
-                  <span className="font-semibold text-gray-900">Formula:</span>
-                  <code className="block mt-2 p-3 bg-gray-50 rounded text-sm">
-                    LP Tokens = SOL × Multiplier × Time Factor
-                  </code>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="bg-[#0066FF] text-white py-20">
-        <div className="container-main">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
-            {[
-              { value: '$5', label: 'Service Fee' },
-              { value: '~15s', label: 'Deploy Time' },
-              { value: '10-15%', label: 'Backer APY' },
-              { value: '97%', label: 'Cost Savings' },
-            ].map((stat, idx) => (
-              <div key={idx}>
-                <div className="text-5xl font-bold mb-2">{stat.value}</div>
-                <div className="text-blue-100">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-20">
-        <div className="container-main">
-          <div className="card text-center max-w-2xl mx-auto border-2 border-[#0066FF]">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to Deploy?</h2>
-            <p className="text-gray-600 mb-6">
-              Be among the first to deploy on mainnet without breaking the bank
-            </p>
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-              <div className="flex space-x-3">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  required
-                  className="input-field flex-1"
-                  disabled={isSubmitting}
-                />
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="btn-primary whitespace-nowrap"
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 cq-grid-stats">
+              {HERO_STATS.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="rounded-2xl border border-primary/20 bg-card/90 px-4 py-5 text-center shadow-[0_20px_45px_-30px_rgba(0,191,255,0.35)] backdrop-blur cq"
                 >
-                  Get Notified
-                </button>
-              </div>
-            </form>
+                  <div className="text-lg font-semibold text-foreground">{stat.value}</div>
+                  <div className="mt-1 text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative w-full max-w-xl rounded-3xl border border-primary/30 bg-card p-8 shadow-[0_30px_70px_-45px_rgba(0,191,255,0.55)] backdrop-blur">
+            <div className="absolute -top-4 right-6 rounded-full border border-primary/40 bg-primary/10 px-4 py-1 text-[10px] font-semibold uppercase tracking-[0.4em] text-primary">
+              Sponsored Rent
+            </div>
+            <h3 className="text-lg font-semibold text-foreground">Deployment Capsule</h3>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Confirm your devnet build, let D2D match you with available backer liquidity, and borrow the SOL required for rent. We track repayments and renewal dates for you.
+            </p>
+            <div className="mt-6 space-y-4">
+              {[
+                'Wallet connection & devnet program check',
+                'Rent calculation + repayment schedule',
+                'Borrow SOL from backer pool & deploy to mainnet',
+              ].map((item) => (
+                <div key={item} className="flex items-center gap-3 text-sm text-muted-foreground">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/15 text-primary">
+                    ✓
+                  </span>
+                  {item}
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 rounded-2xl border border-border/80 bg-muted/50 px-6 py-4 text-sm text-muted-foreground">
+              <p className="font-semibold text-foreground">Next milestone</p>
+              <p className="mt-1 text-muted-foreground">Launch $D2D credits for hackathons and ecosystem partners.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-gray-200 py-8">
+      <section id="problem" className="bg-background py-16">
+        <div className="container-main cq grid gap-10 lg:grid-cols-2 cq">
+          <div className="space-y-4">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// problem</span>
+            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">
+              Solana rent is refundable, but the upfront deposit can still exceed $1,000.
+            </h2>
+            <p className="text-muted-foreground">
+              Deploying a program typically requires reserving rent based on binary size (0.00089 SOL per byte). For large
+              programs that reserve hundreds of kilobytes, builders routinely tie up hundreds of SOL just to ship.
+            </p>
+          </div>
+          <div className="rounded-3xl border border-border/60 bg-card p-6 text-sm text-muted-foreground">
+            <ul className="space-y-3">
+              <li>
+                <strong className="text-foreground">Capital lockup:</strong> Upgrades remain blocked if rent accounts are
+                underfunded.
+              </li>
+              <li>
+                <strong className="text-foreground">Operational drag:</strong> Batching deposits, monitoring rent, and
+                renewing accounts distract from shipping product.
+              </li>
+              <li>
+                <strong className="text-foreground">Beginner friction:</strong> Teams new to Solana often stay on devnet because
+                rent math and CLI flows are intimidating.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="flow" className="bg-background py-24">
+        <div className="container-main cq space-y-12 cq">
+          <div className="flex flex-col gap-4 text-center lg:text-left">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// Solution</span>
+            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">One subscription covers the entire deployment loop.</h2>
+            <p className="max-w-2xl text-lg text-muted-foreground">
+              D2D fuses wallet-native onboarding, verification, SOL lending, and monitoring into a single flow. You retain upgrade authority while we keep programs funded.
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-5">
+            {FLOW_STEPS.map((step, idx) => (
+              <div
+                key={step}
+                className="rounded-3xl border border-primary/30 bg-card p-6 text-sm text-muted-foreground shadow-[0_20px_40px_-25px_rgba(0,191,255,0.4)] backdrop-blur"
+              >
+                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full border border-primary/40 bg-primary/10 text-base font-semibold text-primary shadow-[0_0_15px_rgba(0,191,255,0.4)]">
+                  {idx + 1}
+                </div>
+                {step}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="capital" className="bg-background py-24">
+        <div className="container-main cq space-y-12">
+          <div className="flex flex-col gap-4 text-center lg:text-left">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// capital efficiency</span>
+            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">SOL lending that stays solvent.</h2>
+            <p className="max-w-2xl text-lg text-muted-foreground">
+              Your $5/month subscription feeds a shared rent vault. We top it up, renew it, and extend it with yield so deployments stay live.
+            </p>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-3">
+            {CAPITAL_FEATURES.map((item) => (
+              <div
+                key={item.title}
+                className="group relative flex flex-col rounded-3xl border border-border/60 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-8 shadow-xl shadow-cyan-500/5 transition hover:-translate-y-1 hover:border-cyan-400/40"
+              >
+                <div className="absolute right-8 top-8 h-12 w-12 rounded-full bg-cyan-500/20 blur-xl transition group-hover:bg-cyan-400/30" />
+                <h3 className="text-xl font-semibold text-foreground">{item.title}</h3>
+                <p className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+                <Link href="#contact" className="mt-6 inline-flex items-center text-sm font-semibold text-primary transition hover:text-primary">
+                  {item.cta}
+                  <span className="ml-2 text-base">↗</span>
+                </Link>
+                  </div>
+            ))}
+                  </div>
+        </div>
+      </section>
+
+      <section id="reliability" className="bg-background py-24">
+        <div className="container-main cq space-y-12">
+          <div className="flex flex-col gap-4 text-center lg:text-left">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-purple-300">// reliability & transparency</span>
+            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Verified programs, explorer-ready ownership, ongoing monitoring.</h2>
+            <p className="max-w-2xl text-lg text-muted-foreground">
+              You keep the upgrade authority, we handle everything else. Every step is linked to on-chain proofs.
+            </p>
+                </div>
+
+          <div className="grid gap-8 lg:grid-cols-3">
+            {RELIABILITY_FEATURES.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-3xl border border-border/60 bg-card p-8 shadow-[0_20px_45px_-20px_rgba(124,58,237,0.5)] transition hover:-translate-y-1 hover:border-purple-400/40"
+              >
+                <div className="h-12 w-12 rounded-full bg-purple-500/20 text-purple-200 ring-1 ring-purple-500/40" />
+                <h3 className="mt-6 text-xl font-semibold text-foreground">{item.title}</h3>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+                <Link href="/docs" className="mt-6 inline-flex items-center text-sm font-semibold text-purple-200 transition hover:text-purple-100">
+                  {item.cta}
+                  <span className="ml-2 text-base">↗</span>
+                </Link>
+                  </div>
+            ))}
+                  </div>
+                </div>
+      </section>
+
+      <section id="architecture" className="bg-background py-24">
+        <div className="container-main cq grid gap-12 lg:grid-cols-2 lg:items-start">
+          <div className="space-y-6">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// architecture</span>
+            <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">Under the hood</h2>
+            <p className="text-lg text-muted-foreground">
+              D2D pairs a fast React + Vite interface with Supabase automation and Solana rent-vault smart contracts. Wallet Adapter, Helius APIs, and custom RPC endpoints keep the flow fast and observable.
+            </p>
+            <div className="rounded-3xl border border-border/60 bg-muted/40 p-6 text-sm text-muted-foreground">
+              <h3 className="text-lg font-semibold text-foreground">Optional modules</h3>
+              <ul className="mt-3 space-y-2 list-disc list-inside text-muted-foreground">
+                <li>Auto-renew rent vault via smart contract</li>
+                <li>Deployment history dashboard</li>
+                <li>Developer identification & verification module</li>
+              </ul>
+                  </div>
+                </div>
+          <div className="space-y-6">
+            {ARCHITECTURE.map((item) => (
+              <div key={item.title} className="rounded-3xl border border-border/60 bg-muted/40 p-6 text-sm text-muted-foreground">
+                <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
+                <p className="mt-2">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="programmable" className="bg-background py-24 text-foreground">
+        <div className="container-main cq grid gap-16 lg:grid-cols-2 lg:items-center">
+          <div className="space-y-6">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// sdk & automation</span>
+            <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">Integrate deployments into CI/CD or managed services.</h2>
+            <p className="text-lg text-muted-foreground">
+              SDK and automation tooling are in active development. We’re partnering with staking and restaking providers across Solana to offer TypeScript SDKs, REST APIs, and webhook events for end-to-end automation.
+            </p>
+            <div className="grid gap-6 sm:grid-cols-2">
+              {SDK_FEATURES.map((item) => (
+                <div key={item.title} className="flex flex-col rounded-3xl border border-border/60 bg-muted/40 p-6 backdrop-blur">
+                  <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
+                  <p className="mt-3 flex-1 text-sm text-muted-foreground">{item.description}</p>
+                  <Link href="/docs" className="mt-4 inline-flex items-center text-sm font-semibold text-primary transition hover:text-cyan-100">
+                    Read docs
+                    <span className="ml-2 text-base">↗</span>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-slate-900/80 p-8 shadow-2xl shadow-cyan-500/10 backdrop-blur">
+            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-cyan-500/20 via-transparent to-blue-500/10 blur-3xl" />
+            <div className="relative space-y-6">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">SDK snippet</span>
+                <span className="rounded-full border border-border/60 bg-muted/40 px-3 py-1 text-[10px] uppercase tracking-[0.25em] text-primary">
+                  copy
+                </span>
+              </div>
+              <pre className="relative overflow-hidden rounded-2xl bg-card p-6 text-sm text-cyan-100 shadow-inner">
+                <code>
+                  {`import { D2D } from '@d2d/sdk';
+
+const client = await D2D.init({ wallet });
+await client.deploy({
+  devnetProgramId,
+  reviewedBinaryCid,
+  upgradeAuthority: wallet.publicKey,
+});`}
+                </code>
+              </pre>
+              <p className="text-xs text-muted-foreground">
+                Replace this placeholder with a production-ready screenshot (e.g. @image-programmable.png) when available.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="economics" className="bg-background py-24">
+        <div className="container-main cq grid gap-12 lg:grid-cols-2 lg:items-center">
+          <div className="space-y-6">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// economic model</span>
+            <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">Simple pricing, transparent vaults.</h2>
+            <p className="text-lg text-muted-foreground">
+              Rent on Solana is refundable, but tying up SOL hurts. D2D spreads the cost across the network and keeps vaults topped up.
+            </p>
+            <ul className="space-y-3 text-sm text-muted-foreground">
+              <li>
+                <strong className="text-foreground">Monthly rent:</strong> $5 per program.
+              </li>
+              <li>
+                <strong className="text-foreground">Sponsorship pool:</strong> Covers the initial rent reserve (up to ~$1,000) and schedules renewals automatically.
+              </li>
+              <li>
+                <strong className="text-foreground">Revenue sharing:</strong> 70% of fees refuel rent vaults, 30% fund maintenance & ecosystem rewards.
+              </li>
+              <li>
+                <strong className="text-foreground">Backer incentives:</strong> 10–15% target APY on lent SOL plus platform points redeemable for launchpad access and partner ICO slots.
+              </li>
+              <li>
+                <strong className="text-foreground">Future plans:</strong> Launch $D2D credit system and add DAO governance for sponsorship decisions.
+              </li>
+            </ul>
+          </div>
+          <div className="rounded-3xl border border-border/60 bg-muted/40 p-8">
+            <h3 className="text-lg font-semibold text-foreground">Vault yield policy</h3>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Idle rent reserves are delegated to conservative Solana-native strategies to produce 2–5% APY. Yield is recycled into the vault after validator fees to extend sponsorship runway.
+            </p>
+            <div className="mt-6 rounded-2xl border border-border/60 bg-background/70 p-6 text-xs text-muted-foreground">
+              * Actual rent varies by program size. Typical deployments range from 200–800 KB, requiring tens to hundreds of SOL. D2D absorbs that upfront cost so you can ship for $5/month.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="bg-background py-16">
+        <div className="container-main rounded-3xl border border-primary/30 bg-card p-10 text-center text-sm text-muted-foreground shadow-[0_30px_60px_-40px_rgba(0,191,255,0.45)]">
+          <h2 className="text-2xl font-semibold text-foreground">Questions or partnerships?</h2>
+          <p className="mt-3 text-muted-foreground">
+            Reach out through your preferred channel. We’re actively onboarding builders, auditors, and rent sponsors.
+          </p>
+          <div className="mt-6 flex flex-col items-center justify-center gap-4 text-sm sm:flex-row">
+            <span className="inline-flex items-center gap-2 text-muted-foreground">
+              <span role="img" aria-label="email">
+                📧
+              </span>
+              <a href="mailto:coderhopham@gmail.com" className="hover:text-foreground">
+                coderhopham@gmail.com
+              </a>
+            </span>
+            <span className="inline-flex items-center gap-2 text-muted-foreground">
+              <span role="img" aria-label="telegram">
+                📬
+              </span>
+              <a href="https://t.me/d2d_hq" className="hover:text-foreground" target="_blank" rel="noopener noreferrer">
+                t.me/d2d_hq
+              </a>
+            </span>
+            <span className="inline-flex items-center gap-2 text-muted-foreground">
+              <span role="img" aria-label="twitter">
+                🐦
+              </span>
+              <a href="https://twitter.com/d2d_hq" className="hover:text-foreground" target="_blank" rel="noopener noreferrer">
+                @d2d_hq
+              </a>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-background py-24">
         <div className="container-main">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-600 text-sm mb-4 md:mb-0">
-              © 2025 D2D. Built on Solana.
+          <div className="relative overflow-hidden rounded-3xl border border-primary/30 bg-card p-12 text-center shadow-[0_40px_90px_-45px_rgba(0,191,255,0.7)]">
+            <div className="absolute inset-0 bg-radial-primary opacity-70 blur-3xl" />
+            <div className="relative space-y-6">
+              <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">Ready to ship on Solana mainnet?</h2>
+              <p className="mx-auto max-w-2xl text-lg text-foreground">
+                One wallet connection, one verified build, and you’re live. D2D handles rent, renewals, and monitoring so you can stay focused on product.
+              </p>
+              <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <AnimatedButton
+                  label="Launch app"
+                  href="https://www.app.deployd2d.xyz/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+                <AnimatedButton label="Read Docs" variant="outline" href="/docs" />
+              </div>
             </div>
-            <div className="flex space-x-6">
-              <Link href="/docs" className="text-gray-600 hover:text-gray-900 text-sm">Documentation</Link>
-              <a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Twitter</a>
-              <a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Discord</a>
-            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t border-border/60 bg-background py-10 text-sm text-muted-foreground">
+        <div className="container-main flex flex-col items-center justify-between gap-4 md:flex-row">
+          <p>© {new Date().getFullYear()} D2D. Devnet to Deployment.</p>
+          <div className="flex items-center gap-6">
+            <Link href="/docs" className="hover:text-foreground">
+              Documentation
+            </Link>
+            <Link href="https://twitter.com/d2d_hq" className="hover:text-foreground" target="_blank">
+              Twitter / X
+            </Link>
+            <Link href="https://t.me/d2d_hq" className="hover:text-foreground" target="_blank">
+              Telegram
+            </Link>
+            <Link href="mailto:coderhopham@gmail.com" className="hover:text-foreground">
+              coderhopham@gmail.com
+            </Link>
           </div>
         </div>
       </footer>
     </div>
   );
 }
-
