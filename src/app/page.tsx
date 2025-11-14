@@ -123,8 +123,20 @@ export default function LandingPage() {
         <div className="container-main">
           <div className="flex h-20 items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted/60 ring-1 ring-primary/30">
-                <Image src="/favicon.svg" alt="D2D logo" width={28} height={28} priority />
+              <div className="relative group">
+                {/* Neon glow effect */}
+                <div className="absolute -inset-1 rounded-[25%] bg-primary/40 blur-md opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
+                {/* Logo container with neon border */}
+                <div className="relative rounded-[25%] border-2 border-primary/60 bg-gradient-to-br from-primary/10 to-primary/5 p-0.5 shadow-[0_0_20px_rgba(59,130,246,0.5)] group-hover:border-primary/90 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.7)] transition-all duration-300">
+                  <Image 
+                    className="rounded-[25%] brightness-110 contrast-110" 
+                    src="/favicon.svg" 
+                    alt="D2D logo" 
+                    width={40} 
+                    height={40} 
+                    priority 
+                  />
+                </div>
               </div>
               <div>
                 <h1 className="text-base font-semibold tracking-wide text-foreground">D2D</h1>
@@ -294,8 +306,31 @@ export default function LandingPage() {
             </div>
                 </div>
           <div className="space-y-5">
-            <div className="media-frame min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]">
-              <span>FLOW WIREFRAME</span>
+            <div 
+              className="media-frame min-h-[240px] sm:min-h-[300px] lg:min-h-[400px] relative"
+              style={{
+                backgroundImage: 'url(/image_3.png)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            >
+              {/* Subtle overlay for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-br from-background/30 via-transparent to-background/30 z-0" />
+              
+              {/* DEVNET label - top left */}
+              <div className="absolute top-6 left-6 sm:top-8 sm:left-8 z-10">
+                <span className="inline-block rounded-lg border border-primary/50 bg-background/80 px-4 py-2 text-sm font-semibold uppercase tracking-[0.3em] text-primary backdrop-blur-sm shadow-[0_0_20px_rgba(59,130,246,0.4)]">
+                  //DEVNET
+                </span>
+              </div>
+              
+              {/* MAINNET label - top right */}
+              <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 z-10">
+                <span className="inline-block rounded-lg border border-primary/50 bg-background/80 px-4 py-2 text-sm font-semibold uppercase tracking-[0.3em] text-primary backdrop-blur-sm shadow-[0_0_20px_rgba(59,130,246,0.4)]">
+                  //MAINNET
+                </span>
+              </div>
             </div>
                   </div>
                 </div>
@@ -353,80 +388,95 @@ export default function LandingPage() {
             </div>
               </div>
           <div className="relative">
-            <div className="relative overflow-hidden rounded-2xl border border-primary/35 p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(59,130,246,0.3)] transition-all duration-500 hover:shadow-[0_0_50px_rgba(59,130,246,0.4)] hover:scale-[1.01] min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]"
+            <div 
+              className="relative overflow-hidden rounded-2xl border border-primary/35 backdrop-blur-xl shadow-[0_0_40px_rgba(59,130,246,0.3)] transition-all duration-500 hover:shadow-[0_0_50px_rgba(59,130,246,0.4)] hover:scale-[1.01] min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]"
               style={{
-                background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.95) 0%, rgba(22, 35, 58, 0.90) 50%, rgba(10, 15, 31, 0.95) 100%)',
+                backgroundImage: 'url(/image_4.png)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
               }}
             >
+              {/* Subtle overlay for readability */}
+              <div className="absolute inset-0 bg-gradient-to-br from-background/30 via-transparent to-background/30 z-0" />
+              
               {/* Animated background glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/12 via-primary/6 to-transparent opacity-60" />
               <div className="absolute -inset-[1px] bg-gradient-to-br from-primary/35 via-primary/25 to-primary/15 rounded-2xl blur-2xl opacity-40 -z-10 transition-opacity duration-500 hover:opacity-50" />
-              
-              {/* Content */}
-              <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
-                <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/25 to-primary/15 shadow-[0_0_25px_rgba(59,130,246,0.5)] transition-all duration-500 hover:scale-110 hover:shadow-[0_0_35px_rgba(59,130,246,0.6)]">
-                  <svg className="h-10 w-10 text-primary transition-transform duration-300 hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h3 className="mb-2 text-lg font-bold uppercase tracking-[0.2em] text-foreground transition-colors duration-300">Vault Dashboard</h3>
-                <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">Live Metrics & Analytics</p>
-              </div>
-              
-              {/* Corner accent */}
-              <div className="absolute top-0 right-0 h-24 w-24 bg-gradient-to-br from-primary/25 to-transparent rounded-bl-2xl" />
             </div>
           </div>
         </div>
       </section>
 
-      <section id="reliability" className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32">
-        <div className="container-main cq grid gap-8 sm:gap-10 lg:gap-12 xl:gap-14 2xl:gap-16 lg:grid-cols-2 lg:items-center">
-          <div className="space-y-8">
-            <div className="space-y-4 text-center lg:text-left">
-              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// reliability & transparency</span>
-              <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Proof-backed deployments, monitored forever.</h2>
-              <p className="max-w-2xl text-lg text-muted-foreground">
+      <section 
+        id="reliability" 
+        className="section-divider py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24 2xl:py-28 relative"
+      >
+        {/* Background image with 80% opacity */}
+        <div 
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: 'url(/image_5.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            opacity: 0.8,
+          }}
+        />
+        
+        {/* Dark overlay for content readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-background/60 via-background/40 to-background/60 z-0" />
+        
+        <div className="container-main relative z-10">
+          <div className="mx-auto max-w-4xl space-y-6 sm:space-y-8 md:space-y-10 lg:space-y-12">
+            {/* Header Section */}
+            <div className="space-y-3 sm:space-y-4 text-center">
+              <span className="inline-block text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-primary">// reliability & transparency</span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground leading-tight px-4 sm:px-0">
+                Proof-backed deployments, monitored forever.
+              </h2>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-4 sm:px-6 md:px-0 leading-relaxed">
                 D2D verifies binaries before deploy, hands you ownership receipts, and keeps rent monitored so audits stay simple.
-                </p>
-              </div>
-            <div className="grid gap-5 grid-cols-1">
+              </p>
+            </div>
+            
+            {/* Features Grid */}
+            <div className="grid gap-4 sm:gap-5 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 px-4 sm:px-6 md:px-0">
               {RELIABILITY_FEATURES.map((item, idx) => (
                 <div
                   key={item.title}
-                  className="group relative overflow-hidden rounded-2xl border border-primary/25 p-6 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_35px_rgba(59,130,246,0.4)] hover:-translate-y-1 hover:scale-[1.01]"
+                  className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-primary/25 p-4 sm:p-5 md:p-6 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_35px_rgba(59,130,246,0.4)] hover:-translate-y-1 hover:scale-[1.01]"
                   style={{
                     background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.90) 0%, rgba(22, 35, 58, 0.80) 50%, rgba(10, 15, 31, 0.90) 100%)',
                   }}
                 >
                   {/* Blue glow effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <div className="absolute -inset-[2px] bg-gradient-to-br from-primary/25 via-primary/15 to-transparent rounded-2xl blur-xl opacity-0 transition-opacity duration-500 group-hover:opacity-60 -z-10" />
+                  <div className="absolute -inset-[2px] bg-gradient-to-br from-primary/25 via-primary/15 to-transparent rounded-xl sm:rounded-2xl blur-xl opacity-0 transition-opacity duration-500 group-hover:opacity-60 -z-10" />
                   
                   {/* Vertical Stacked Content */}
-                  <div className="relative z-10 flex flex-col gap-5">
+                  <div className="relative z-10 flex flex-col gap-3 sm:gap-4 md:gap-5">
                     {/* Icon + Title - Top, Left Aligned */}
-                    <div className="flex items-center gap-4">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-gradient-to-br from-primary/25 to-primary/15 ring-1 ring-primary/50 shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]">
-                        <div className="h-5 w-5 rounded-full bg-primary/70 transition-all duration-300 group-hover:scale-110" />
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <div className="flex h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 shrink-0 items-center justify-center rounded-lg sm:rounded-xl border border-primary/40 bg-gradient-to-br from-primary/25 to-primary/15 ring-1 ring-primary/50 shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]">
+                        <div className="h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-primary/70 transition-all duration-300 group-hover:scale-110" />
                       </div>
-                      <h3 className="text-base font-bold uppercase tracking-[0.15em] text-foreground leading-tight">
+                      <h3 className="text-sm sm:text-base md:text-lg font-bold uppercase tracking-[0.15em] text-foreground leading-tight">
                         {item.title}
                       </h3>
                     </div>
                     
                     {/* Body Text - Below Title, Vertical Block */}
-                    <p className="text-sm leading-relaxed text-muted-foreground">
+                    <p className="text-xs sm:text-sm md:text-base leading-relaxed text-muted-foreground">
                       {item.description}
                     </p>
                     
                     {/* Action Label - Below Body Text, Left Aligned */}
                     <Link 
                       href="/docs" 
-                      className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary transition-all duration-200 hover:text-primary/80 hover:gap-3 group/link w-fit"
+                      className="inline-flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-primary transition-all duration-200 hover:text-primary/80 hover:gap-2.5 sm:hover:gap-3 group/link w-fit"
                     >
                       <span>{item.cta}</span>
-                      <span className="text-base transition-transform duration-200 group-hover/link:translate-x-1 group-hover/link:-translate-y-1">↗</span>
+                      <span className="text-sm sm:text-base transition-transform duration-200 group-hover/link:translate-x-1 group-hover/link:-translate-y-1">↗</span>
                     </Link>
                   </div>
                   
@@ -434,31 +484,6 @@ export default function LandingPage() {
                   <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/60 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 </div>
               ))}
-            </div>
-          </div>
-          <div className="relative">
-            <div className="relative overflow-hidden rounded-2xl border border-primary/35 p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(59,130,246,0.3)] transition-all duration-500 hover:shadow-[0_0_50px_rgba(59,130,246,0.4)] hover:scale-[1.01] min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]"
-              style={{
-                background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.95) 0%, rgba(22, 35, 58, 0.90) 50%, rgba(10, 15, 31, 0.95) 100%)',
-              }}
-            >
-              {/* Animated background glow - Blue */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/12 via-primary/6 to-transparent opacity-60" />
-              <div className="absolute -inset-[1px] bg-gradient-to-br from-primary/35 via-primary/25 to-primary/15 rounded-2xl blur-2xl opacity-40 -z-10 transition-opacity duration-500 hover:opacity-50" />
-              
-              {/* Content */}
-              <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
-                <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/25 to-primary/15 shadow-[0_0_25px_rgba(59,130,246,0.5)] transition-all duration-500 hover:scale-110 hover:shadow-[0_0_35px_rgba(59,130,246,0.6)]">
-                  <svg className="h-10 w-10 text-primary transition-transform duration-300 hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-                <h3 className="mb-2 text-lg font-bold uppercase tracking-[0.2em] text-foreground transition-colors duration-300">Security Dashboard</h3>
-                <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">Verification & Monitoring</p>
-              </div>
-              
-              {/* Corner accent - Blue */}
-              <div className="absolute top-0 right-0 h-24 w-24 bg-gradient-to-br from-primary/25 to-transparent rounded-bl-2xl" />
             </div>
           </div>
         </div>
@@ -490,7 +515,35 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="media-frame min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]">
-              <span>ARCHITECTURE DIAGRAM</span>
+              <div className="flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-4 h-full">
+                {/* Left section - Architecture Diagram */}
+                <div className="flex flex-col items-start sm:items-center text-center sm:text-left">
+                  <div className="flex flex-col gap-1 sm:gap-2">
+                    <span className="text-xs sm:text-sm md:text-base font-semibold uppercase tracking-[0.3em] text-muted-foreground/90">
+                      ARCHITECTURE DIAGRAM
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Divider */}
+                <div className="flex items-center gap-3 sm:gap-4 w-full max-w-xs">
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+                  <span className="text-muted-foreground/60 text-lg sm:text-xl">/</span>
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+                </div>
+                
+                {/* Right section - Updating Soon */}
+                <div className="flex flex-col items-start sm:items-center gap-2">
+                  <span className="text-xs sm:text-sm md:text-base font-semibold uppercase tracking-[0.3em] text-primary">
+                  UPDATING SOON
+                  </span>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-primary/60 animate-pulse" style={{ animationDelay: '0ms' }} />
+                    <div className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-primary/60 animate-pulse" style={{ animationDelay: '150ms' }} />
+                    <div className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-primary/60 animate-pulse" style={{ animationDelay: '300ms' }} />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="space-y-5 flex flex-col justify-center">
@@ -541,7 +594,35 @@ export default function LandingPage() {
               ))}
             </div>
             <div className="media-frame min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]">
-              <span>SDK UI PREVIEW</span>
+              <div className="flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-4 h-full">
+                {/* Left section - SDK UI Preview */}
+                <div className="flex flex-col items-start sm:items-center text-center sm:text-left">
+                  <div className="flex flex-col gap-1 sm:gap-2">
+                    <span className="text-xs sm:text-sm md:text-base font-semibold uppercase tracking-[0.3em] text-muted-foreground/90">
+                      SDK UI PREVIEW
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Divider */}
+                <div className="flex items-center gap-3 sm:gap-4 w-full max-w-xs">
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+                  <span className="text-muted-foreground/60 text-lg sm:text-xl">/</span>
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+                </div>
+                
+                {/* Right section - Updating Soon */}
+                <div className="flex flex-col items-start sm:items-center gap-2">
+                  <span className="text-xs sm:text-sm md:text-base font-semibold uppercase tracking-[0.3em] text-primary">
+                    UPDATING SOON
+                  </span>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-primary/60 animate-pulse" style={{ animationDelay: '0ms' }} />
+                    <div className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-primary/60 animate-pulse" style={{ animationDelay: '150ms' }} />
+                    <div className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-primary/60 animate-pulse" style={{ animationDelay: '300ms' }} />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -627,7 +708,35 @@ await client.deploy({
               </div>
             </div>
             <div className="media-frame min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]">
-              <span>ECONOMICS CHART</span>
+              <div className="flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-4 h-full">
+                {/* Left section - Economics Chart */}
+                <div className="flex flex-col items-start sm:items-center text-center sm:text-left">
+                  <div className="flex flex-col gap-1 sm:gap-2">
+                    <span className="text-xs sm:text-sm md:text-base font-semibold uppercase tracking-[0.3em] text-muted-foreground/90">
+                      ECONOMICS CHART
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Divider */}
+                <div className="flex items-center gap-3 sm:gap-4 w-full max-w-xs">
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+                  <span className="text-muted-foreground/60 text-lg sm:text-xl">/</span>
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+                </div>
+                
+                {/* Right section - Updating Soon */}
+                <div className="flex flex-col items-start sm:items-center gap-2">
+                  <span className="text-xs sm:text-sm md:text-base font-semibold uppercase tracking-[0.3em] text-primary">
+                  UPDATING SOON
+                  </span>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-primary/60 animate-pulse" style={{ animationDelay: '0ms' }} />
+                    <div className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-primary/60 animate-pulse" style={{ animationDelay: '150ms' }} />
+                    <div className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-primary/60 animate-pulse" style={{ animationDelay: '300ms' }} />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
