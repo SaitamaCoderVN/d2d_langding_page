@@ -1,5 +1,8 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 import { AnimatedButton } from '@/components/ui/animated-button'
 
@@ -84,13 +87,86 @@ const SDK_FEATURES = [
 ];
 
 export default function LandingPage() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    let rafId: number | null = null;
+
+    const updateScrollProgress = () => {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      
+      // Calculate scroll progress (0 to 1)
+      const maxScroll = Math.max(documentHeight - windowHeight, 1);
+      const progress = scrollTop / maxScroll;
+      
+      const clampedProgress = Math.min(Math.max(progress, 0), 1);
+      setScrollProgress(clampedProgress);
+    };
+
+    const handleScroll = () => {
+      if (rafId !== null) return;
+
+      rafId = requestAnimationFrame(() => {
+        updateScrollProgress();
+        rafId = null;
+      });
+    };
+
+    // Initial calculation
+    updateScrollProgress();
+
+    // Use window scroll event
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
+    };
+  }, []);
+
+  // Calculate position for the light effect
+  // Start: top-left (-10%, -10%)
+  // End: bottom-right (90%, 90%)
+  const lightX = -10 + scrollProgress * 100; // -10% to 90%
+  const lightY = -10 + scrollProgress * 100; // -10% to 90%
+
+  // Debug: log scroll progress (remove in production)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      console.log('Scroll progress:', (scrollProgress * 100).toFixed(1) + '%', 'Light X:', lightX.toFixed(1) + '%', 'Light Y:', lightY.toFixed(1) + '%');
+    }
+  }, [scrollProgress, lightX, lightY]);
+
   return (
     <div className="min-h-screen text-foreground transition-colors duration-300 relative isolate">
-      {/* Dark navy gradient background */}
+      {/* Dark gradient background with higher contrast */}
       <div 
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(180deg, #0a0f1f 0%, #16233a 100%)',
+          background: 'linear-gradient(180deg, #030510 0%, #0a0f1f 50%, #050810 100%)',
+        }}
+      />
+      
+      {/* Animated diagonal light effect - above background images and overlays but below content */}
+      <div 
+        className="fixed pointer-events-none"
+        style={{
+          width: '1500px',
+          height: '1500px',
+          left: `${lightX}%`,
+          top: `${lightY}%`,
+          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.225) 0%, rgba(59, 130, 246, 0.175) 10%, rgba(59, 130, 246, 0.125) 25%, rgba(59, 130, 246, 0.075) 45%, transparent 75%)',
+          filter: 'blur(150px)',
+          transform: 'translate(-50%, -50%)',
+          willChange: 'left, top',
+          zIndex: 5,
+          mixBlendMode: 'screen',
         }}
       />
       
@@ -118,7 +194,7 @@ export default function LandingPage() {
       />
       
       {/* Content wrapper */}
-      <div className="relative z-10">
+      <div className="relative z-20">
       <header className="header-sticky">
         <div className="container-main">
           <div className="flex h-20 items-center justify-between">
@@ -201,7 +277,7 @@ export default function LandingPage() {
 
           <div className="relative w-full max-w-xl rounded-2xl border border-primary/35 p-8 shadow-[0_30px_70px_-45px_rgba(59,130,246,0.6)] backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_35px_80px_-40px_rgba(59,130,246,0.75)] hover:scale-[1.01]"
             style={{
-              background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.95) 0%, rgba(22, 35, 58, 0.90) 50%, rgba(10, 15, 31, 0.95) 100%)',
+              background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.98) 0%, rgba(5, 8, 16, 0.95) 50%, rgba(3, 5, 16, 0.98) 100%)',
             }}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-primary/12 via-primary/6 to-transparent opacity-60" />
@@ -228,7 +304,24 @@ export default function LandingPage() {
         </div>
         
         {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#0a0f1f]/80 via-[#16233a]/70 to-[#0a0f1f]/80" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#030510]/90 via-[#050810]/85 to-[#030510]/90" />
+        
+        {/* Light effect overlay for this section - above dark overlay */}
+        <div 
+          className="fixed pointer-events-none"
+          style={{
+            width: '1500px',
+            height: '1500px',
+            left: `${lightX}%`,
+            top: `${lightY}%`,
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.225) 0%, rgba(59, 130, 246, 0.175) 10%, rgba(59, 130, 246, 0.125) 25%, rgba(59, 130, 246, 0.075) 45%, transparent 75%)',
+            filter: 'blur(150px)',
+            transform: 'translate(-50%, -50%)',
+            willChange: 'left, top',
+            zIndex: 1,
+            mixBlendMode: 'screen',
+          }}
+        />
         
         <div className="container-main relative z-10 cq">
           <div className="max-w-4xl space-y-6">
@@ -260,7 +353,7 @@ export default function LandingPage() {
               ].map((item) => (
                 <div key={item.title} className="group relative overflow-hidden rounded-2xl border border-primary/25 p-5 text-sm text-muted-foreground backdrop-blur-sm transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:-translate-y-1 hover:scale-[1.02]"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.85) 0%, rgba(22, 35, 58, 0.75) 50%, rgba(10, 15, 31, 0.85) 100%)',
+                    background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.90) 0%, rgba(5, 8, 16, 0.85) 50%, rgba(3, 5, 16, 0.90) 100%)',
                   }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -291,7 +384,7 @@ export default function LandingPage() {
                   key={step}
                   className="group relative overflow-hidden rounded-2xl border border-primary/35 p-6 text-sm text-muted-foreground shadow-[0_20px_40px_-25px_rgba(59,130,246,0.45)] backdrop-blur-xl transition-all duration-500 hover:-translate-y-1.5 hover:border-primary/60 hover:shadow-[0_25px_50px_-20px_rgba(59,130,246,0.6)] hover:scale-[1.02]"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.90) 0%, rgba(22, 35, 58, 0.80) 50%, rgba(10, 15, 31, 0.90) 100%)',
+                    background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.95) 0%, rgba(5, 8, 16, 0.90) 50%, rgba(3, 5, 16, 0.95) 100%)',
                   }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -352,7 +445,7 @@ export default function LandingPage() {
                   key={item.title}
                   className="group relative overflow-hidden rounded-2xl border border-primary/25 p-6 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_35px_rgba(59,130,246,0.4)] hover:-translate-y-1 hover:scale-[1.01]"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.90) 0%, rgba(22, 35, 58, 0.80) 50%, rgba(10, 15, 31, 0.90) 100%)',
+                    background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.95) 0%, rgba(5, 8, 16, 0.90) 50%, rgba(3, 5, 16, 0.95) 100%)',
                   }}
                 >
                   {/* Blue glow effect */}
@@ -424,7 +517,24 @@ export default function LandingPage() {
         />
         
         {/* Dark overlay for content readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background/60 via-background/40 to-background/60 z-0" />
+        <div className="absolute inset-0 bg-gradient-to-br from-background/80 via-background/70 to-background/80 z-0" />
+        
+        {/* Light effect overlay for this section - above dark overlay */}
+        <div 
+          className="fixed pointer-events-none"
+          style={{
+            width: '1500px',
+            height: '1500px',
+            left: `${lightX}%`,
+            top: `${lightY}%`,
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.225) 0%, rgba(59, 130, 246, 0.175) 10%, rgba(59, 130, 246, 0.125) 25%, rgba(59, 130, 246, 0.075) 45%, transparent 75%)',
+            filter: 'blur(150px)',
+            transform: 'translate(-50%, -50%)',
+            willChange: 'left, top',
+            zIndex: 1,
+            mixBlendMode: 'screen',
+          }}
+        />
         
         <div className="container-main relative z-10">
           <div className="mx-auto max-w-4xl space-y-6 sm:space-y-8 md:space-y-10 lg:space-y-12">
@@ -446,7 +556,7 @@ export default function LandingPage() {
                   key={item.title}
                   className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-primary/25 p-4 sm:p-5 md:p-6 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_35px_rgba(59,130,246,0.4)] hover:-translate-y-1 hover:scale-[1.01]"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.90) 0%, rgba(22, 35, 58, 0.80) 50%, rgba(10, 15, 31, 0.90) 100%)',
+                    background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.95) 0%, rgba(5, 8, 16, 0.90) 50%, rgba(3, 5, 16, 0.95) 100%)',
                   }}
                 >
                   {/* Blue glow effect */}
@@ -501,7 +611,7 @@ export default function LandingPage() {
             </div>
             <div className="group relative overflow-hidden rounded-2xl border border-primary/25 p-6 text-sm text-muted-foreground backdrop-blur-sm transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:-translate-y-1 hover:scale-[1.01]"
               style={{
-                background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.85) 0%, rgba(22, 35, 58, 0.75) 50%, rgba(10, 15, 31, 0.85) 100%)',
+                background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.90) 0%, rgba(5, 8, 16, 0.85) 50%, rgba(3, 5, 16, 0.90) 100%)',
               }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -628,7 +738,7 @@ export default function LandingPage() {
 
           <div className="group relative overflow-hidden rounded-2xl border border-primary/35 p-8 shadow-[0_0_40px_rgba(59,130,246,0.3)] backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_55px_rgba(59,130,246,0.45)] hover:scale-[1.01]"
             style={{
-              background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.95) 0%, rgba(22, 35, 58, 0.90) 50%, rgba(10, 15, 31, 0.95) 100%)',
+              background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.98) 0%, rgba(5, 8, 16, 0.95) 50%, rgba(3, 5, 16, 0.98) 100%)',
             }}
           >
             <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-primary/35 via-primary/25 to-primary/15 blur-2xl opacity-40 -z-10 transition-opacity duration-500 group-hover:opacity-55" />
@@ -642,7 +752,7 @@ export default function LandingPage() {
               </div>
               <pre className="relative overflow-hidden rounded-xl border border-primary/30 p-6 text-sm text-primary/90 shadow-inner backdrop-blur transition-all duration-300 group-hover:border-primary/40"
                 style={{
-                  background: 'rgba(10, 15, 31, 0.80)',
+                  background: 'rgba(3, 5, 16, 0.85)',
                 }}
               >
                 <code className="font-mono">
@@ -689,7 +799,7 @@ await client.deploy({
           <div className="space-y-6">
             <div className="group relative overflow-hidden rounded-2xl border border-primary/25 p-8 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.35)] hover:-translate-y-1 hover:scale-[1.01]"
               style={{
-                background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.90) 0%, rgba(22, 35, 58, 0.80) 50%, rgba(10, 15, 31, 0.90) 100%)',
+                background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.95) 0%, rgba(5, 8, 16, 0.90) 50%, rgba(3, 5, 16, 0.95) 100%)',
               }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -700,7 +810,7 @@ await client.deploy({
                 </p>
                 <div className="mt-6 rounded-xl border border-primary/20 p-5 text-xs leading-relaxed text-muted-foreground backdrop-blur-sm"
                   style={{
-                    background: 'rgba(10, 15, 31, 0.60)',
+                    background: 'rgba(3, 5, 16, 0.70)',
                   }}
                 >
                   * Actual rent varies by program size. Typical deployments range from 200–800 KB, requiring tens to hundreds of SOL. D2D absorbs that upfront cost so you can ship for $5/month.
@@ -746,7 +856,7 @@ await client.deploy({
         <div className="container-main">
           <div className="group relative overflow-hidden rounded-2xl border border-primary/35 p-6 sm:p-8 lg:p-12 text-center shadow-[0_40px_90px_-45px_rgba(59,130,246,0.75)] backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_45px_100px_-45px_rgba(59,130,246,0.85)] hover:scale-[1.01]"
             style={{
-              background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.95) 0%, rgba(22, 35, 58, 0.90) 50%, rgba(10, 15, 31, 0.95) 100%)',
+              background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.98) 0%, rgba(5, 8, 16, 0.95) 50%, rgba(3, 5, 16, 0.98) 100%)',
             }}
           >
             <div className="absolute inset-0 bg-radial-primary opacity-75 blur-3xl" />
