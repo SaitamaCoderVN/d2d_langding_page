@@ -5,6 +5,11 @@ import { Toaster } from 'react-hot-toast'
 export const metadata: Metadata = {
   title: 'D2D - Decentralized Deployment Platform',
   description: 'Deploy Solana programs to mainnet for just $5. Launching November 2, 2025.',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({
