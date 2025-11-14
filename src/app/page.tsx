@@ -11,30 +11,26 @@ const HERO_STATS = [
 ];
 
 const FLOW_STEPS = [
-  'Connect wallet & deployed devnet program',
-  'Enter Program ID on devnet',
-  'D2D will calculate rent & fee transaction',
-  'Pay ≈ $5 for the first month & D2D deploys using backer SOL',
-  'Wait & check your program on mainnet',
+  'Connect wallet and share your devnet program ID',
+  'Automatic binary + IDL verification and rent sizing',
+  'Borrow SOL from the backer vault and ship to mainnet',
+  'Stay live with automated monitoring and renewal pings',
 ];
 
 const CAPITAL_FEATURES = [
   {
     title: 'Shared Rent Sponsorship',
-    description:
-      'Backers deposit SOL into lending pools so devs can borrow the rent required for mainnet deployments without tying up their own capital.',
+    description: 'Backers park SOL in a pooled vault so programs can reserve rent instantly without teams locking up their own capital.',
     cta: 'See pool mechanics',
   },
   {
     title: 'Usage-based Accounting',
-    description:
-      'Every program records borrowed SOL, rent burn, and renewal windows so repayments (≈0.5% monthly) stay aligned with actual usage.',
+    description: 'Borrowed SOL, rent burn, and renewal windows auto-sync so repayments (≈0.5% monthly) track real usage.',
     cta: 'View transparency report',
   },
   {
     title: '2–5% Yield Extension',
-    description:
-      'Idle SOL in the pool is delegated to conservative Solana-native strategies (validators, liquid staking) to extend runway before repayments arrive.',
+    description: 'Idle vault balances delegate to conservative Solana yield so sponsorship runway extends before repayments arrive.',
     cta: 'Review yield policy',
   },
 ];
@@ -42,20 +38,17 @@ const CAPITAL_FEATURES = [
 const RELIABILITY_FEATURES = [
   {
     title: 'Program Verification',
-    description:
-      'We compare your devnet ID, binary hash, and IDL before releasing borrowed SOL. Only verified builds make it to mainnet.',
+    description: 'Devnet IDs, binary hashes, and IDLs align before any SOL leaves the vault, so only verified builds deploy.',
     cta: 'Verification checklist',
   },
   {
     title: 'Explorer-linked Ownership',
-    description:
-      'Receive the transaction signature, rent account, and upgrade authority so you retain full control immediately after deploy.',
+    description: 'Deployment signatures, rent accounts, and upgrade keys arrive together so teams retain control instantly.',
     cta: 'Sample explorer link',
   },
   {
     title: 'Continuous Monitoring',
-    description:
-      'Helius APIs and custom RPCs monitor rent balances, health checks, and renewal windows. Alerts fire before deposits dip.',
+    description: 'Helius feeds and custom RPCs watch rent health 24/7 and alert you long before balances dip.',
     cta: 'Monitoring overview',
   },
 ];
@@ -63,42 +56,69 @@ const RELIABILITY_FEATURES = [
 const ARCHITECTURE = [
   {
     title: 'Frontend',
-    description:
-      'React + Vite + TailwindCSS power a wallet-native dashboard that mirrors Solana builder tooling expectations.',
+    description: 'Wallet-native dashboard for connecting wallets and managing deployments.',
   },
   {
     title: 'Backend',
-    description:
-      'Supabase (PostgreSQL + Edge Functions) stores deployment metadata, upgrade authorities, and audit logs. Edge functions issue webhooks post-deploy.',
+    description: 'Stores deployment metadata, upgrade authorities, and handles automation.',
   },
   {
     title: 'Blockchain Layer',
-    description:
-      'Solana mainnet programs, RPC endpoints (Helius + dedicated nodes), and a rent vault program coordinate SOL lending, repayments, and renewals.',
+    description: 'Solana programs and RPC endpoints coordinate SOL lending and rent management.',
   },
   {
     title: 'Integrations',
-    description:
-      'Solana Wallet Adapter, Helius API for confirmations, optional auto-renew smart contract, and deployment history dashboards.',
+    description: 'Wallet Adapter, RPC APIs, and monitoring tools keep deployments live.',
   },
 ];
 
 const SDK_FEATURES = [
   {
     title: 'TypeScript SDK + REST API',
-    description:
-      'Register programs, upload reviewed binaries, and trigger mainnet deployments with a few lines of code.',
+    description: 'Register programs and trigger deploys with a handful of SDK or REST calls.',
   },
   {
     title: 'Automation Hooks',
-    description:
-      'Webhook events notify you when verification completes, rent is reserved, or renewals are due—ideal for CI/CD pipelines.',
+    description: 'Webhooks fire on verification, funding, and renewals — perfect for CI/CD or managed services.',
   },
 ];
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
+    <div className="min-h-screen text-foreground transition-colors duration-300 relative isolate">
+      {/* Dark navy gradient background */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(180deg, #0a0f1f 0%, #16233a 100%)',
+        }}
+      />
+      
+      {/* Subtle grid pattern overlay - very faint white lines */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `
+            repeating-linear-gradient(
+              0deg,
+              rgba(255, 255, 255, 0.03) 0px,
+              rgba(255, 255, 255, 0.03) 1px,
+              transparent 1px,
+              transparent 60px
+            ),
+            repeating-linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 0.03) 0px,
+              rgba(255, 255, 255, 0.03) 1px,
+              transparent 1px,
+              transparent 60px
+            )
+          `,
+        }}
+      />
+      
+      {/* Content wrapper */}
+      <div className="relative z-10">
       <header className="header-sticky">
         <div className="container-main">
           <div className="flex h-20 items-center justify-between">
@@ -108,7 +128,7 @@ export default function LandingPage() {
               </div>
               <div>
                 <h1 className="text-base font-semibold tracking-wide text-foreground">D2D</h1>
-                <p className="text-xs text-muted-foreground">Devnet to Deployment</p>
+                <p className="text-xs text-muted-foreground">Decentralize to deployment</p>
               </div>
             </div>
             <nav className="hidden items-center space-x-8 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground md:flex">
@@ -136,15 +156,15 @@ export default function LandingPage() {
         </div>
       </header>
 
-      <section className="relative overflow-hidden bg-background">
+      <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute -left-1/3 top-0 h-96 w-96 rounded-full bg-primary/20 blur-3xl motion-safe:animate-[glow_12s_linear_infinite]" />
-          <div className="absolute right-0 top-1/3 h-72 w-72 rounded-full bg-accent/30 blur-3xl motion-safe:animate-[glow_10s_linear_infinite_reverse]" />
+          <div className="absolute -left-1/3 top-0 h-96 w-96 rounded-full bg-primary/25 blur-3xl motion-safe:animate-[glow_12s_linear_infinite]" />
+          <div className="absolute right-0 top-1/3 h-72 w-72 rounded-full bg-primary/20 blur-3xl motion-safe:animate-[glow_10s_linear_infinite_reverse]" />
           </div>
-        <div className="container-main relative z-10 flex flex-col gap-16 py-24 lg:flex-row lg:items-center lg:justify-between">
-          <div className="w-full max-w-2xl space-y-8 cq lg:max-w-3xl xl:max-w-4xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary shadow-[0_0_20px_rgba(0,191,255,0.35)]">
-              🧱 D2D – Devnet to Deployment
+        <div className="container-main relative z-10 flex flex-col gap-8 py-12 sm:gap-12 sm:py-16 lg:flex-row lg:items-center lg:justify-between lg:gap-16 lg:py-24 xl:gap-20 xl:py-28 2xl:gap-24 2xl:py-32">
+          <div className="w-full max-w-2xl space-y-8 cq lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary shadow-[0_0_20px_rgba(59,130,246,0.4)] backdrop-blur-sm transition-all duration-300 hover:border-primary/70 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] hover:scale-[1.02]">
+               D2D – Decentralize to deployment
             </span>
             <div className="space-y-6">
               <h2 className="hero-heading text-foreground">
@@ -172,221 +192,455 @@ export default function LandingPage() {
               {HERO_STATS.map((stat) => (
                 <div
                   key={stat.label}
-                  className="rounded-2xl border border-primary/20 bg-card/90 px-4 py-5 text-center shadow-[0_20px_45px_-30px_rgba(0,191,255,0.35)] backdrop-blur cq"
+                  className="group relative overflow-hidden rounded-2xl border border-primary/25 px-4 py-5 text-center shadow-[0_20px_45px_-30px_rgba(59,130,246,0.4)] backdrop-blur-sm transition-all duration-500 hover:border-primary/50 hover:shadow-[0_25px_50px_-25px_rgba(59,130,246,0.55)] hover:-translate-y-1 hover:scale-[1.02] cq"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.85) 0%, rgba(22, 35, 58, 0.75) 50%, rgba(10, 15, 31, 0.85) 100%)',
+                  }}
                 >
-                  <div className="text-lg font-semibold text-foreground">{stat.value}</div>
-                  <div className="mt-1 text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{stat.label}</div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="relative z-10">
+                    <div className="text-lg font-semibold text-foreground transition-transform duration-500 group-hover:scale-110">{stat.value}</div>
+                    <div className="mt-1 text-[10px] uppercase tracking-[0.3em] text-muted-foreground transition-colors duration-300 group-hover:text-primary/80">{stat.label}</div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="relative w-full max-w-xl rounded-3xl border border-primary/30 bg-card p-8 shadow-[0_30px_70px_-45px_rgba(0,191,255,0.55)] backdrop-blur">
-            <div className="absolute -top-4 right-6 rounded-full border border-primary/40 bg-primary/10 px-4 py-1 text-[10px] font-semibold uppercase tracking-[0.4em] text-primary">
-              Sponsored Rent
+          <div className="relative w-full max-w-xl rounded-2xl border border-primary/35 p-8 shadow-[0_30px_70px_-45px_rgba(59,130,246,0.6)] backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_35px_80px_-40px_rgba(59,130,246,0.75)] hover:scale-[1.01]"
+            style={{
+              background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.95) 0%, rgba(22, 35, 58, 0.90) 50%, rgba(10, 15, 31, 0.95) 100%)',
+            }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/12 via-primary/6 to-transparent opacity-60" />
+            <div className="absolute -inset-[1px] bg-gradient-to-br from-primary/35 via-primary/25 to-primary/15 rounded-2xl blur-2xl opacity-40 -z-10 transition-opacity duration-500 hover:opacity-50" />
+            <div className="relative z-10">
+              <div className="media-frame min-h-[240px] sm:min-h-[300px] lg:min-h-[360px]">
+                <span>DROP HERO VISUAL</span>
+              </div>
             </div>
-            <h3 className="text-lg font-semibold text-foreground">Deployment Capsule</h3>
-            <p className="mt-3 text-sm text-muted-foreground">
-              Confirm your devnet build, let D2D match you with available backer liquidity, and borrow the SOL required for rent. We track repayments and renewal dates for you.
-            </p>
-            <div className="mt-6 space-y-4">
+          </div>
+        </div>
+      </section>
+
+      <section id="problem" className="section-divider py-12 sm:py-16 lg:py-20 xl:py-24 2xl:py-28">
+        <div className="container-main cq grid gap-6 sm:gap-8 lg:gap-10 xl:gap-12 2xl:gap-16 lg:grid-cols-2 lg:items-center">
+          <div className="space-y-6">
+            <div className="space-y-4">
+              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// problem</span>
+              <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Why rent blocks mainnet launches.</h2>
+              <p className="text-base text-muted-foreground">
+                Programs larger than a few hundred kilobytes can require triple-digit SOL just to reserve space. Teams delay or cancel mainnet deploys because capital gets trapped and verification spans too many manual steps.
+              </p>
+          </div>
+            <div className="grid gap-4 sm:grid-cols-2">
               {[
-                'Wallet connection & devnet program check',
-                'Rent calculation + repayment schedule',
-                'Borrow SOL from backer pool & deploy to mainnet',
+                {
+                  title: 'Capital lockup',
+                  copy: 'Binary size driven rent pulls hundreds of SOL off your balance sheet before the first user ships.'
+                },
+                {
+                  title: 'Operational drag',
+                  copy: 'Monitoring rent, renewing vaults, and coordinating upgrades steal engineering cycles.'
+                },
+                {
+                  title: 'Verification gaps',
+                  copy: 'Matching devnet IDs to binaries manually introduces risk and slows compliance reviews.'
+                },
+                {
+                  title: 'Newcomer friction',
+                  copy: 'Builders fresh to Solana stall on devnet because CLI flows and rent math feel brittle.'
+                },
               ].map((item) => (
-                <div key={item} className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/15 text-primary">
-                    ✓
-                  </span>
-                  {item}
+                <div key={item.title} className="group relative overflow-hidden rounded-2xl border border-primary/25 p-5 text-sm text-muted-foreground backdrop-blur-sm transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:-translate-y-1 hover:scale-[1.02]"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.85) 0%, rgba(22, 35, 58, 0.75) 50%, rgba(10, 15, 31, 0.85) 100%)',
+                  }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="relative z-10">
+                    <p className="font-semibold text-foreground mb-2 transition-colors duration-300 group-hover:text-primary/90">{item.title}</p>
+                    <p className="leading-relaxed">{item.copy}</p>
+                  </div>
                 </div>
               ))}
             </div>
-            <div className="mt-8 rounded-2xl border border-border/80 bg-muted/50 px-6 py-4 text-sm text-muted-foreground">
-              <p className="font-semibold text-foreground">Next milestone</p>
-              <p className="mt-1 text-muted-foreground">Launch $D2D credits for hackathons and ecosystem partners.</p>
+              </div>
+          <div className="media-frame min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]">
+            <span>ADD MARKET GRAPHIC</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="flow" className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32">
+        <div className="container-main cq grid gap-8 sm:gap-10 lg:gap-12 xl:gap-14 2xl:gap-16 lg:grid-cols-2 lg:items-center">
+          <div className="space-y-8">
+            <div className="space-y-4 text-center lg:text-left">
+              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// solution</span>
+              <h2 className="text-3xl font-bold text-foreground sm:text-4xl">One loop from devnet build to mainnet rent.</h2>
+              <p className="max-w-2xl text-lg text-muted-foreground">
+                Wallet connect, verification, borrowing, and monitoring live in a single subscription so you can prove deploy ownership without touching raw rent math.
+              </p>
+          </div>
+            <div className="grid gap-5 sm:grid-cols-2">
+              {FLOW_STEPS.slice(0, 4).map((step, idx) => (
+                <div
+                  key={step}
+                  className="group relative overflow-hidden rounded-2xl border border-primary/35 p-6 text-sm text-muted-foreground shadow-[0_20px_40px_-25px_rgba(59,130,246,0.45)] backdrop-blur-xl transition-all duration-500 hover:-translate-y-1.5 hover:border-primary/60 hover:shadow-[0_25px_50px_-20px_rgba(59,130,246,0.6)] hover:scale-[1.02]"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.90) 0%, rgba(22, 35, 58, 0.80) 50%, rgba(10, 15, 31, 0.90) 100%)',
+                  }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="relative z-10">
+                    <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-primary/50 bg-gradient-to-br from-primary/25 to-primary/15 text-xs font-bold uppercase tracking-[0.3em] text-primary shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]">
+                      0{idx + 1}
+                    </div>
+                    <p className="text-base leading-relaxed text-foreground transition-colors duration-300 group-hover:text-primary/90">{step}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+                </div>
+          <div className="space-y-5">
+            <div className="media-frame min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]">
+              <span>FLOW WIREFRAME</span>
+            </div>
+                  </div>
+                </div>
+      </section>
+
+      <section id="capital" className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32">
+        <div className="container-main cq grid gap-8 sm:gap-10 lg:gap-12 xl:gap-14 2xl:gap-16 lg:grid-cols-2 lg:items-center">
+          <div className="space-y-8">
+            <div className="space-y-4 text-center lg:text-left">
+              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// capital efficiency</span>
+              <h2 className="text-3xl font-bold text-foreground sm:text-4xl">SOL lending without capital drag.</h2>
+              <p className="max-w-2xl text-lg text-muted-foreground">
+                Backers supply rent liquidity, D2D handles renewals, and teams repay a light subscription so programs stay live with minimal treasury impact.
+              </p>
+              </div>
+            <div className="grid gap-5 grid-cols-1">
+              {CAPITAL_FEATURES.map((item, idx) => (
+                <div
+                  key={item.title}
+                  className="group relative overflow-hidden rounded-2xl border border-primary/25 p-6 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_35px_rgba(59,130,246,0.4)] hover:-translate-y-1 hover:scale-[1.01]"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.90) 0%, rgba(22, 35, 58, 0.80) 50%, rgba(10, 15, 31, 0.90) 100%)',
+                  }}
+                >
+                  {/* Blue glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="absolute -inset-[2px] bg-gradient-to-br from-primary/25 via-primary/15 to-transparent rounded-2xl blur-xl opacity-0 transition-opacity duration-500 group-hover:opacity-60 -z-10" />
+                  
+                  {/* Vertical Stacked Content */}
+                  <div className="relative z-10 flex flex-col gap-5">
+                    {/* Title - Top, Left Aligned */}
+                    <h3 className="text-base font-bold uppercase tracking-[0.15em] text-foreground leading-tight">
+                      {item.title}
+                    </h3>
+                    
+                    {/* Body Text - Below Title, Vertical Block */}
+                    <p className="text-sm leading-relaxed text-muted-foreground">
+                      {item.description}
+                    </p>
+                    
+                    {/* Action Label - Below Body Text, Left Aligned */}
+                    <Link 
+                      href="#contact" 
+                      className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary transition-all duration-200 hover:text-primary/80 hover:gap-3 group/link w-fit"
+                    >
+                      <span>{item.cta}</span>
+                      <span className="text-base transition-transform duration-200 group-hover/link:translate-x-1 group-hover/link:-translate-y-1">↗</span>
+                    </Link>
+                  </div>
+                  
+                    {/* Accent line */}
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/60 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                </div>
+              ))}
+            </div>
+              </div>
+          <div className="relative">
+            <div className="relative overflow-hidden rounded-2xl border border-primary/35 p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(59,130,246,0.3)] transition-all duration-500 hover:shadow-[0_0_50px_rgba(59,130,246,0.4)] hover:scale-[1.01] min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]"
+              style={{
+                background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.95) 0%, rgba(22, 35, 58, 0.90) 50%, rgba(10, 15, 31, 0.95) 100%)',
+              }}
+            >
+              {/* Animated background glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/12 via-primary/6 to-transparent opacity-60" />
+              <div className="absolute -inset-[1px] bg-gradient-to-br from-primary/35 via-primary/25 to-primary/15 rounded-2xl blur-2xl opacity-40 -z-10 transition-opacity duration-500 hover:opacity-50" />
+              
+              {/* Grid pattern overlay - white subtle */}
+              <div 
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  backgroundImage: `
+                    repeating-linear-gradient(
+                      0deg,
+                      rgba(255, 255, 255, 0.03) 0px,
+                      rgba(255, 255, 255, 0.03) 1px,
+                      transparent 1px,
+                      transparent 60px
+                    ),
+                    repeating-linear-gradient(
+                      90deg,
+                      rgba(255, 255, 255, 0.03) 0px,
+                      rgba(255, 255, 255, 0.03) 1px,
+                      transparent 1px,
+                      transparent 60px
+                    )
+                  `,
+                }}
+              />
+              
+              {/* Content */}
+              <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
+                <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/25 to-primary/15 shadow-[0_0_25px_rgba(59,130,246,0.5)] transition-all duration-500 hover:scale-110 hover:shadow-[0_0_35px_rgba(59,130,246,0.6)]">
+                  <svg className="h-10 w-10 text-primary transition-transform duration-300 hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="mb-2 text-lg font-bold uppercase tracking-[0.2em] text-foreground transition-colors duration-300">Vault Dashboard</h3>
+                <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">Live Metrics & Analytics</p>
+              </div>
+              
+              {/* Corner accent */}
+              <div className="absolute top-0 right-0 h-24 w-24 bg-gradient-to-br from-primary/25 to-transparent rounded-bl-2xl" />
             </div>
           </div>
         </div>
       </section>
 
-      <section id="problem" className="bg-background py-16">
-        <div className="container-main cq grid gap-10 lg:grid-cols-2 cq">
-          <div className="space-y-4">
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// problem</span>
-            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">
-              Solana rent is refundable, but the upfront deposit can still exceed $1,000.
-            </h2>
-            <p className="text-muted-foreground">
-              Deploying a program typically requires reserving rent based on binary size (0.00089 SOL per byte). For large
-              programs that reserve hundreds of kilobytes, builders routinely tie up hundreds of SOL just to ship.
-            </p>
-          </div>
-          <div className="rounded-3xl border border-border/60 bg-card p-6 text-sm text-muted-foreground">
-            <ul className="space-y-3">
-              <li>
-                <strong className="text-foreground">Capital lockup:</strong> Upgrades remain blocked if rent accounts are
-                underfunded.
-              </li>
-              <li>
-                <strong className="text-foreground">Operational drag:</strong> Batching deposits, monitoring rent, and
-                renewing accounts distract from shipping product.
-              </li>
-              <li>
-                <strong className="text-foreground">Beginner friction:</strong> Teams new to Solana often stay on devnet because
-                rent math and CLI flows are intimidating.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="flow" className="bg-background py-24">
-        <div className="container-main cq space-y-12 cq">
-          <div className="flex flex-col gap-4 text-center lg:text-left">
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// Solution</span>
-            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">One subscription covers the entire deployment loop.</h2>
-            <p className="max-w-2xl text-lg text-muted-foreground">
-              D2D fuses wallet-native onboarding, verification, SOL lending, and monitoring into a single flow. You retain upgrade authority while we keep programs funded.
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-5">
-            {FLOW_STEPS.map((step, idx) => (
-              <div
-                key={step}
-                className="rounded-3xl border border-primary/30 bg-card p-6 text-sm text-muted-foreground shadow-[0_20px_40px_-25px_rgba(0,191,255,0.4)] backdrop-blur"
-              >
-                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full border border-primary/40 bg-primary/10 text-base font-semibold text-primary shadow-[0_0_15px_rgba(0,191,255,0.4)]">
-                  {idx + 1}
-                </div>
-                {step}
+      <section id="reliability" className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32">
+        <div className="container-main cq grid gap-8 sm:gap-10 lg:gap-12 xl:gap-14 2xl:gap-16 lg:grid-cols-2 lg:items-center">
+          <div className="space-y-8">
+            <div className="space-y-4 text-center lg:text-left">
+              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// reliability & transparency</span>
+              <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Proof-backed deployments, monitored forever.</h2>
+              <p className="max-w-2xl text-lg text-muted-foreground">
+                D2D verifies binaries before deploy, hands you ownership receipts, and keeps rent monitored so audits stay simple.
+                </p>
               </div>
-            ))}
+            <div className="grid gap-5 grid-cols-1">
+              {RELIABILITY_FEATURES.map((item, idx) => (
+                <div
+                  key={item.title}
+                  className="group relative overflow-hidden rounded-2xl border border-primary/25 p-6 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_35px_rgba(59,130,246,0.4)] hover:-translate-y-1 hover:scale-[1.01]"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.90) 0%, rgba(22, 35, 58, 0.80) 50%, rgba(10, 15, 31, 0.90) 100%)',
+                  }}
+                >
+                  {/* Blue glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="absolute -inset-[2px] bg-gradient-to-br from-primary/25 via-primary/15 to-transparent rounded-2xl blur-xl opacity-0 transition-opacity duration-500 group-hover:opacity-60 -z-10" />
+                  
+                  {/* Vertical Stacked Content */}
+                  <div className="relative z-10 flex flex-col gap-5">
+                    {/* Icon + Title - Top, Left Aligned */}
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-gradient-to-br from-primary/25 to-primary/15 ring-1 ring-primary/50 shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]">
+                        <div className="h-5 w-5 rounded-full bg-primary/70 transition-all duration-300 group-hover:scale-110" />
+                      </div>
+                      <h3 className="text-base font-bold uppercase tracking-[0.15em] text-foreground leading-tight">
+                        {item.title}
+                      </h3>
+                    </div>
+                    
+                    {/* Body Text - Below Title, Vertical Block */}
+                    <p className="text-sm leading-relaxed text-muted-foreground">
+                      {item.description}
+                    </p>
+                    
+                    {/* Action Label - Below Body Text, Left Aligned */}
+                    <Link 
+                      href="/docs" 
+                      className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary transition-all duration-200 hover:text-primary/80 hover:gap-3 group/link w-fit"
+                    >
+                      <span>{item.cta}</span>
+                      <span className="text-base transition-transform duration-200 group-hover/link:translate-x-1 group-hover/link:-translate-y-1">↗</span>
+                    </Link>
+                  </div>
+                  
+                  {/* Accent line - Blue */}
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/60 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="relative">
+            <div className="relative overflow-hidden rounded-2xl border border-primary/35 p-8 backdrop-blur-xl shadow-[0_0_40px_rgba(59,130,246,0.3)] transition-all duration-500 hover:shadow-[0_0_50px_rgba(59,130,246,0.4)] hover:scale-[1.01] min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]"
+              style={{
+                background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.95) 0%, rgba(22, 35, 58, 0.90) 50%, rgba(10, 15, 31, 0.95) 100%)',
+              }}
+            >
+              {/* Animated background glow - Blue */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/12 via-primary/6 to-transparent opacity-60" />
+              <div className="absolute -inset-[1px] bg-gradient-to-br from-primary/35 via-primary/25 to-primary/15 rounded-2xl blur-2xl opacity-40 -z-10 transition-opacity duration-500 hover:opacity-50" />
+              
+              {/* Grid pattern overlay - white subtle */}
+              <div 
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  backgroundImage: `
+                    repeating-linear-gradient(
+                      0deg,
+                      rgba(255, 255, 255, 0.03) 0px,
+                      rgba(255, 255, 255, 0.03) 1px,
+                      transparent 1px,
+                      transparent 60px
+                    ),
+                    repeating-linear-gradient(
+                      90deg,
+                      rgba(255, 255, 255, 0.03) 0px,
+                      rgba(255, 255, 255, 0.03) 1px,
+                      transparent 1px,
+                      transparent 60px
+                    )
+                  `,
+                }}
+              />
+              
+              {/* Content */}
+              <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
+                <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/25 to-primary/15 shadow-[0_0_25px_rgba(59,130,246,0.5)] transition-all duration-500 hover:scale-110 hover:shadow-[0_0_35px_rgba(59,130,246,0.6)]">
+                  <svg className="h-10 w-10 text-primary transition-transform duration-300 hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <h3 className="mb-2 text-lg font-bold uppercase tracking-[0.2em] text-foreground transition-colors duration-300">Security Dashboard</h3>
+                <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">Verification & Monitoring</p>
+              </div>
+              
+              {/* Corner accent - Blue */}
+              <div className="absolute top-0 right-0 h-24 w-24 bg-gradient-to-br from-primary/25 to-transparent rounded-bl-2xl" />
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="capital" className="bg-background py-24">
-        <div className="container-main cq space-y-12">
-          <div className="flex flex-col gap-4 text-center lg:text-left">
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// capital efficiency</span>
-            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">SOL lending that stays solvent.</h2>
-            <p className="max-w-2xl text-lg text-muted-foreground">
-              Your $5/month subscription feeds a shared rent vault. We top it up, renew it, and extend it with yield so deployments stay live.
-            </p>
+      <section id="architecture" className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32">
+        <div className="container-main cq grid gap-8 sm:gap-10 lg:gap-12 xl:gap-14 2xl:gap-16 lg:grid-cols-2 lg:items-start">
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// architecture</span>
+              <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">What powers the deploy loop.</h2>
+              <p className="text-lg text-muted-foreground">
+                Frontend, backend, Solana programs, and integrations sync to push verified binaries on-chain and keep rent funded.
+              </p>
+            </div>
+            <div className="group relative overflow-hidden rounded-2xl border border-primary/25 p-6 text-sm text-muted-foreground backdrop-blur-sm transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:-translate-y-1 hover:scale-[1.01]"
+              style={{
+                background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.85) 0%, rgba(22, 35, 58, 0.75) 50%, rgba(10, 15, 31, 0.85) 100%)',
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <div className="relative z-10">
+                <h3 className="text-lg font-semibold text-foreground mb-3">Optional modules</h3>
+                <ul className="space-y-2 list-disc list-inside text-muted-foreground">
+                  <li>Auto-renew rent vault via smart contract</li>
+                  <li>Deployment history dashboard</li>
+                  <li>Developer verification workflows</li>
+                </ul>
+              </div>
+            </div>
+            <div className="media-frame min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]">
+              <span>ARCHITECTURE DIAGRAM</span>
+            </div>
           </div>
-
-          <div className="grid gap-8 lg:grid-cols-3">
-            {CAPITAL_FEATURES.map((item) => (
-              <div
-                key={item.title}
-                className="group relative flex flex-col rounded-3xl border border-border/60 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-8 shadow-xl shadow-cyan-500/5 transition hover:-translate-y-1 hover:border-cyan-400/40"
-              >
-                <div className="absolute right-8 top-8 h-12 w-12 rounded-full bg-cyan-500/20 blur-xl transition group-hover:bg-cyan-400/30" />
-                <h3 className="text-xl font-semibold text-foreground">{item.title}</h3>
-                <p className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
-                <Link href="#contact" className="mt-6 inline-flex items-center text-sm font-semibold text-primary transition hover:text-primary">
-                  {item.cta}
-                  <span className="ml-2 text-base">↗</span>
-                </Link>
-                  </div>
-            ))}
-                  </div>
-        </div>
-      </section>
-
-      <section id="reliability" className="bg-background py-24">
-        <div className="container-main cq space-y-12">
-          <div className="flex flex-col gap-4 text-center lg:text-left">
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-purple-300">// reliability & transparency</span>
-            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Verified programs, explorer-ready ownership, ongoing monitoring.</h2>
-            <p className="max-w-2xl text-lg text-muted-foreground">
-              You keep the upgrade authority, we handle everything else. Every step is linked to on-chain proofs.
-            </p>
-                </div>
-
-          <div className="grid gap-8 lg:grid-cols-3">
-            {RELIABILITY_FEATURES.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-3xl border border-border/60 bg-card p-8 shadow-[0_20px_45px_-20px_rgba(124,58,237,0.5)] transition hover:-translate-y-1 hover:border-purple-400/40"
-              >
-                <div className="h-12 w-12 rounded-full bg-purple-500/20 text-purple-200 ring-1 ring-purple-500/40" />
-                <h3 className="mt-6 text-xl font-semibold text-foreground">{item.title}</h3>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
-                <Link href="/docs" className="mt-6 inline-flex items-center text-sm font-semibold text-purple-200 transition hover:text-purple-100">
-                  {item.cta}
-                  <span className="ml-2 text-base">↗</span>
-                </Link>
-                  </div>
-            ))}
-                  </div>
-                </div>
-      </section>
-
-      <section id="architecture" className="bg-background py-24">
-        <div className="container-main cq grid gap-12 lg:grid-cols-2 lg:items-start">
-          <div className="space-y-6">
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// architecture</span>
-            <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">Under the hood</h2>
-            <p className="text-lg text-muted-foreground">
-              D2D pairs a fast React + Vite interface with Supabase automation and Solana rent-vault smart contracts. Wallet Adapter, Helius APIs, and custom RPC endpoints keep the flow fast and observable.
-            </p>
-            <div className="rounded-3xl border border-border/60 bg-muted/40 p-6 text-sm text-muted-foreground">
-              <h3 className="text-lg font-semibold text-foreground">Optional modules</h3>
-              <ul className="mt-3 space-y-2 list-disc list-inside text-muted-foreground">
-                <li>Auto-renew rent vault via smart contract</li>
-                <li>Deployment history dashboard</li>
-                <li>Developer identification & verification module</li>
-              </ul>
-                  </div>
-                </div>
-          <div className="space-y-6">
+          <div className="space-y-5 flex flex-col justify-center">
             {ARCHITECTURE.map((item) => (
-              <div key={item.title} className="rounded-3xl border border-border/60 bg-muted/40 p-6 text-sm text-muted-foreground">
-                <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
-                <p className="mt-2">{item.description}</p>
+              <div key={item.title} className="group relative overflow-hidden rounded-2xl border border-primary/25 p-6 text-sm text-muted-foreground backdrop-blur-sm transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:-translate-y-1 hover:scale-[1.01]"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.85) 0%, rgba(22, 35, 58, 0.75) 50%, rgba(10, 15, 31, 0.85) 100%)',
+                }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="relative z-10">
+                  <h3 className="text-lg font-semibold text-foreground mb-2">{item.title}</h3>
+                  <p className="leading-relaxed">{item.description}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="programmable" className="bg-background py-24 text-foreground">
-        <div className="container-main cq grid gap-16 lg:grid-cols-2 lg:items-center">
-          <div className="space-y-6">
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// sdk & automation</span>
-            <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">Integrate deployments into CI/CD or managed services.</h2>
-            <p className="text-lg text-muted-foreground">
-              SDK and automation tooling are in active development. We’re partnering with staking and restaking providers across Solana to offer TypeScript SDKs, REST APIs, and webhook events for end-to-end automation.
-            </p>
+      <section id="programmable" className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32 text-foreground">
+        <div className="container-main cq grid gap-8 sm:gap-12 lg:gap-16 xl:gap-20 2xl:gap-24 lg:grid-cols-2 lg:items-center">
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// sdk & automation</span>
+              <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">Deploy via SDK or API.</h2>
+              <p className="text-lg text-muted-foreground">
+                TypeScript SDK, REST API, and webhook events enable programmatic deployments and CI/CD integration.
+              </p>
+            </div>
             <div className="grid gap-6 sm:grid-cols-2">
               {SDK_FEATURES.map((item) => (
-                <div key={item.title} className="flex flex-col rounded-3xl border border-border/60 bg-muted/40 p-6 backdrop-blur">
-                  <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
-                  <p className="mt-3 flex-1 text-sm text-muted-foreground">{item.description}</p>
-                  <Link href="/docs" className="mt-4 inline-flex items-center text-sm font-semibold text-primary transition hover:text-cyan-100">
-                    Read docs
-                    <span className="ml-2 text-base">↗</span>
-                  </Link>
+                <div key={item.title} className="group relative overflow-hidden flex flex-col rounded-2xl border border-primary/25 p-6 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.35)] hover:-translate-y-1 hover:scale-[1.01]"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.90) 0%, rgba(22, 35, 58, 0.80) 50%, rgba(10, 15, 31, 0.90) 100%)',
+                  }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="relative z-10 flex flex-col">
+                    <h3 className="text-lg font-semibold text-foreground mb-3">{item.title}</h3>
+                    <p className="flex-1 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+                    <Link href="/docs" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all duration-200 hover:text-primary/80 hover:gap-3 group/link w-fit">
+                      <span>Read docs</span>
+                      <span className="text-base transition-transform duration-200 group-hover/link:translate-x-1 group-hover/link:-translate-y-1">↗</span>
+                    </Link>
+                  </div>
                 </div>
               ))}
             </div>
+            <div className="media-frame min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]">
+              <span>SDK UI PREVIEW</span>
+            </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-slate-900/80 p-8 shadow-2xl shadow-cyan-500/10 backdrop-blur">
-            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-cyan-500/20 via-transparent to-blue-500/10 blur-3xl" />
-            <div className="relative space-y-6">
+          <div className="group relative overflow-hidden rounded-2xl border border-primary/35 p-8 shadow-[0_0_40px_rgba(59,130,246,0.3)] backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_55px_rgba(59,130,246,0.45)] hover:scale-[1.01]"
+            style={{
+              background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.95) 0%, rgba(22, 35, 58, 0.90) 50%, rgba(10, 15, 31, 0.95) 100%)',
+            }}
+          >
+            <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-primary/35 via-primary/25 to-primary/15 blur-2xl opacity-40 -z-10 transition-opacity duration-500 group-hover:opacity-55" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-60" />
+            <div 
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                backgroundImage: `
+                  repeating-linear-gradient(
+                    0deg,
+                    rgba(255, 255, 255, 0.03) 0px,
+                    rgba(255, 255, 255, 0.03) 1px,
+                    transparent 1px,
+                    transparent 60px
+                  ),
+                  repeating-linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.03) 0px,
+                    rgba(255, 255, 255, 0.03) 1px,
+                    transparent 1px,
+                    transparent 60px
+                  )
+                `,
+              }}
+            />
+            <div className="relative z-10 space-y-6">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">SDK snippet</span>
-                <span className="rounded-full border border-border/60 bg-muted/40 px-3 py-1 text-[10px] uppercase tracking-[0.25em] text-primary">
+                <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-primary transition-all duration-300 hover:bg-primary/20 hover:scale-105 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]">
                   copy
                 </span>
               </div>
-              <pre className="relative overflow-hidden rounded-2xl bg-card p-6 text-sm text-cyan-100 shadow-inner">
-                <code>
+              <pre className="relative overflow-hidden rounded-xl border border-primary/30 p-6 text-sm text-primary/90 shadow-inner backdrop-blur transition-all duration-300 group-hover:border-primary/40"
+                style={{
+                  background: 'rgba(10, 15, 31, 0.80)',
+                }}
+              >
+                <code className="font-mono">
                   {`import { D2D } from '@d2d/sdk';
 
 const client = await D2D.init({ wallet });
@@ -397,92 +651,74 @@ await client.deploy({
 });`}
                 </code>
               </pre>
-              <p className="text-xs text-muted-foreground">
-                Replace this placeholder with a production-ready screenshot (e.g. @image-programmable.png) when available.
-              </p>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="economics" className="bg-background py-24">
-        <div className="container-main cq grid gap-12 lg:grid-cols-2 lg:items-center">
-          <div className="space-y-6">
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// economic model</span>
-            <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">Simple pricing, transparent vaults.</h2>
-            <p className="text-lg text-muted-foreground">
-              Rent on Solana is refundable, but tying up SOL hurts. D2D spreads the cost across the network and keeps vaults topped up.
-            </p>
+      <section id="economics" className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32">
+        <div className="container-main cq grid gap-8 sm:gap-10 lg:gap-12 xl:gap-14 2xl:gap-16 lg:grid-cols-2 lg:items-center">
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// economic model</span>
+              <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">Simple pricing, transparent vaults.</h2>
+              <p className="text-lg text-muted-foreground">
+                Rent on Solana is refundable, but tying up SOL hurts. D2D spreads the cost across the network and keeps vaults topped up.
+              </p>
+            </div>
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li>
-                <strong className="text-foreground">Monthly rent:</strong> $5 per program.
+                <strong className="text-foreground">Monthly fee:</strong> $5 per program.
               </li>
               <li>
-                <strong className="text-foreground">Sponsorship pool:</strong> Covers the initial rent reserve (up to ~$1,000) and schedules renewals automatically.
+                <strong className="text-foreground">Sponsorship pool:</strong> Covers initial rent (up to ~$1,000) and auto-renews.
               </li>
               <li>
-                <strong className="text-foreground">Revenue sharing:</strong> 70% of fees refuel rent vaults, 30% fund maintenance & ecosystem rewards.
+                <strong className="text-foreground">Backer yield:</strong> 10–15% target APY on lent SOL.
               </li>
               <li>
-                <strong className="text-foreground">Backer incentives:</strong> 10–15% target APY on lent SOL plus platform points redeemable for launchpad access and partner ICO slots.
-              </li>
-              <li>
-                <strong className="text-foreground">Future plans:</strong> Launch $D2D credit system and add DAO governance for sponsorship decisions.
+                <strong className="text-foreground">Revenue split:</strong> 70% to vaults, 30% to operations.
               </li>
             </ul>
           </div>
-          <div className="rounded-3xl border border-border/60 bg-muted/40 p-8">
-            <h3 className="text-lg font-semibold text-foreground">Vault yield policy</h3>
-            <p className="mt-3 text-sm text-muted-foreground">
-              Idle rent reserves are delegated to conservative Solana-native strategies to produce 2–5% APY. Yield is recycled into the vault after validator fees to extend sponsorship runway.
-            </p>
-            <div className="mt-6 rounded-2xl border border-border/60 bg-background/70 p-6 text-xs text-muted-foreground">
-              * Actual rent varies by program size. Typical deployments range from 200–800 KB, requiring tens to hundreds of SOL. D2D absorbs that upfront cost so you can ship for $5/month.
+          <div className="space-y-6">
+            <div className="group relative overflow-hidden rounded-2xl border border-primary/25 p-8 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.35)] hover:-translate-y-1 hover:scale-[1.01]"
+              style={{
+                background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.90) 0%, rgba(22, 35, 58, 0.80) 50%, rgba(10, 15, 31, 0.90) 100%)',
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <div className="relative z-10">
+                <h3 className="text-lg font-semibold text-foreground mb-3">Vault yield policy</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  Idle rent reserves delegate to conservative Solana strategies, feeding 2–5% APY back into the sponsorship pool.
+                </p>
+                <div className="mt-6 rounded-xl border border-primary/20 p-5 text-xs leading-relaxed text-muted-foreground backdrop-blur-sm"
+                  style={{
+                    background: 'rgba(10, 15, 31, 0.60)',
+                  }}
+                >
+                  * Actual rent varies by program size. Typical deployments range from 200–800 KB, requiring tens to hundreds of SOL. D2D absorbs that upfront cost so you can ship for $5/month.
+                </div>
+              </div>
+            </div>
+            <div className="media-frame min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]">
+              <span>ECONOMICS CHART</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="contact" className="bg-background py-16">
-        <div className="container-main rounded-3xl border border-primary/30 bg-card p-10 text-center text-sm text-muted-foreground shadow-[0_30px_60px_-40px_rgba(0,191,255,0.45)]">
-          <h2 className="text-2xl font-semibold text-foreground">Questions or partnerships?</h2>
-          <p className="mt-3 text-muted-foreground">
-            Reach out through your preferred channel. We’re actively onboarding builders, auditors, and rent sponsors.
-          </p>
-          <div className="mt-6 flex flex-col items-center justify-center gap-4 text-sm sm:flex-row">
-            <span className="inline-flex items-center gap-2 text-muted-foreground">
-              <span role="img" aria-label="email">
-                📧
-              </span>
-              <a href="mailto:coderhopham@gmail.com" className="hover:text-foreground">
-                coderhopham@gmail.com
-              </a>
-            </span>
-            <span className="inline-flex items-center gap-2 text-muted-foreground">
-              <span role="img" aria-label="telegram">
-                📬
-              </span>
-              <a href="https://t.me/d2d_hq" className="hover:text-foreground" target="_blank" rel="noopener noreferrer">
-                t.me/d2d_hq
-              </a>
-            </span>
-            <span className="inline-flex items-center gap-2 text-muted-foreground">
-              <span role="img" aria-label="twitter">
-                🐦
-              </span>
-              <a href="https://twitter.com/d2d_hq" className="hover:text-foreground" target="_blank" rel="noopener noreferrer">
-                @d2d_hq
-              </a>
-            </span>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-background py-24">
+      <section className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32">
         <div className="container-main">
-          <div className="relative overflow-hidden rounded-3xl border border-primary/30 bg-card p-12 text-center shadow-[0_40px_90px_-45px_rgba(0,191,255,0.7)]">
-            <div className="absolute inset-0 bg-radial-primary opacity-70 blur-3xl" />
-            <div className="relative space-y-6">
+          <div className="group relative overflow-hidden rounded-2xl border border-primary/35 p-6 sm:p-8 lg:p-12 text-center shadow-[0_40px_90px_-45px_rgba(59,130,246,0.75)] backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_45px_100px_-45px_rgba(59,130,246,0.85)] hover:scale-[1.01]"
+            style={{
+              background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.95) 0%, rgba(22, 35, 58, 0.90) 50%, rgba(10, 15, 31, 0.95) 100%)',
+            }}
+          >
+            <div className="absolute inset-0 bg-radial-primary opacity-75 blur-3xl" />
+            <div className="absolute -inset-[1px] bg-gradient-to-br from-primary/35 via-primary/25 to-primary/15 rounded-2xl blur-2xl opacity-45 -z-10 transition-opacity duration-500 group-hover:opacity-55" />
+            <div className="relative z-10 space-y-6">
               <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">Ready to ship on Solana mainnet?</h2>
               <p className="mx-auto max-w-2xl text-lg text-foreground">
                 One wallet connection, one verified build, and you’re live. D2D handles rent, renewals, and monitoring so you can stay focused on product.
@@ -495,15 +731,15 @@ await client.deploy({
                   rel="noopener noreferrer"
                 />
                 <AnimatedButton label="Read Docs" variant="outline" href="/docs" />
-              </div>
+            </div>
             </div>
           </div>
         </div>
       </section>
 
-      <footer className="border-t border-border/60 bg-background py-10 text-sm text-muted-foreground">
+      <footer className="border-t border-border/60 py-10 text-sm text-muted-foreground">
         <div className="container-main flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p>© {new Date().getFullYear()} D2D. Devnet to Deployment.</p>
+          <p>© {new Date().getFullYear()} D2D. Decentralize to deployment.</p>
           <div className="flex items-center gap-6">
             <Link href="/docs" className="hover:text-foreground">
               Documentation
@@ -520,6 +756,7 @@ await client.deploy({
           </div>
         </div>
       </footer>
+      </div>
     </div>
   );
 }

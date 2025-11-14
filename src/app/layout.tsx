@@ -13,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="h-full" suppressHydrationWarning>
-      <body className="min-h-screen bg-background text-foreground font-mono transition-colors duration-300" suppressHydrationWarning>
+    <html lang="en" className="h-full bg-transparent" suppressHydrationWarning>
+      <body className="min-h-screen text-foreground font-mono transition-colors duration-300 bg-transparent" suppressHydrationWarning>
         {children}
         <Toaster position="top-right" />
       </body>
