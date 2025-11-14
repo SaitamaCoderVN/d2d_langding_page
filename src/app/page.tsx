@@ -168,15 +168,12 @@ export default function LandingPage() {
             </span>
             <div className="space-y-6">
               <h2 className="hero-heading text-foreground">
-                Borrow SOL to deploy your Solana program on mainnet.
+                Deploy your Solana program on mainnet.
             <br />
                 <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-                  Average cost ≈ $5/month.
+                  With $5/month.
                 </span>
               </h2>
-              <p className="cq-subheading text-muted-foreground">
-                D2D connects Solana developers who need rent with backers willing to stake their SOL long term. Borrow the rent you need, pay a monthly maintenance fee, and keep shipping.
-              </p>
           </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <AnimatedButton
@@ -188,23 +185,6 @@ export default function LandingPage() {
               <AnimatedButton label="View Documentation" variant="outline" href="/docs" />
             </div>
 
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 cq-grid-stats">
-              {HERO_STATS.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="group relative overflow-hidden rounded-2xl border border-primary/25 px-4 py-5 text-center shadow-[0_20px_45px_-30px_rgba(59,130,246,0.4)] backdrop-blur-sm transition-all duration-500 hover:border-primary/50 hover:shadow-[0_25px_50px_-25px_rgba(59,130,246,0.55)] hover:-translate-y-1 hover:scale-[1.02] cq"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.85) 0%, rgba(22, 35, 58, 0.75) 50%, rgba(10, 15, 31, 0.85) 100%)',
-                  }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <div className="relative z-10">
-                    <div className="text-lg font-semibold text-foreground transition-transform duration-500 group-hover:scale-110">{stat.value}</div>
-                    <div className="mt-1 text-[10px] uppercase tracking-[0.3em] text-muted-foreground transition-colors duration-300 group-hover:text-primary/80">{stat.label}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
 
           <div className="relative w-full max-w-xl rounded-2xl border border-primary/35 p-8 shadow-[0_30px_70px_-45px_rgba(59,130,246,0.6)] backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_35px_80px_-40px_rgba(59,130,246,0.75)] hover:scale-[1.01]"
@@ -216,16 +196,30 @@ export default function LandingPage() {
             <div className="absolute -inset-[1px] bg-gradient-to-br from-primary/35 via-primary/25 to-primary/15 rounded-2xl blur-2xl opacity-40 -z-10 transition-opacity duration-500 hover:opacity-50" />
             <div className="relative z-10">
               <div className="media-frame min-h-[240px] sm:min-h-[300px] lg:min-h-[360px]">
-                <span>DROP HERO VISUAL</span>
+                <Image src="/image_1.jpg" alt="D2D hero visual" width={500} height={500} />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="problem" className="section-divider py-12 sm:py-16 lg:py-20 xl:py-24 2xl:py-28">
-        <div className="container-main cq grid gap-6 sm:gap-8 lg:gap-10 xl:gap-12 2xl:gap-16 lg:grid-cols-2 lg:items-center">
-          <div className="space-y-6">
+      <section id="problem" className="section-divider py-12 sm:py-16 lg:py-20 xl:py-24 2xl:py-28 relative overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <Image 
+            src="/image_2.jpg" 
+            alt="D2D problem visual background" 
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+        
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#0a0f1f]/80 via-[#16233a]/70 to-[#0a0f1f]/80" />
+        
+        <div className="container-main relative z-10 cq">
+          <div className="max-w-4xl space-y-6">
             <div className="space-y-4">
               <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// problem</span>
               <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Why rent blocks mainnet launches.</h2>
@@ -266,9 +260,6 @@ export default function LandingPage() {
               ))}
             </div>
               </div>
-          <div className="media-frame min-h-[240px] sm:min-h-[300px] lg:min-h-[400px]">
-            <span>ADD MARKET GRAPHIC</span>
-          </div>
         </div>
       </section>
 
@@ -371,29 +362,6 @@ export default function LandingPage() {
               <div className="absolute inset-0 bg-gradient-to-br from-primary/12 via-primary/6 to-transparent opacity-60" />
               <div className="absolute -inset-[1px] bg-gradient-to-br from-primary/35 via-primary/25 to-primary/15 rounded-2xl blur-2xl opacity-40 -z-10 transition-opacity duration-500 hover:opacity-50" />
               
-              {/* Grid pattern overlay - white subtle */}
-              <div 
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  backgroundImage: `
-                    repeating-linear-gradient(
-                      0deg,
-                      rgba(255, 255, 255, 0.03) 0px,
-                      rgba(255, 255, 255, 0.03) 1px,
-                      transparent 1px,
-                      transparent 60px
-                    ),
-                    repeating-linear-gradient(
-                      90deg,
-                      rgba(255, 255, 255, 0.03) 0px,
-                      rgba(255, 255, 255, 0.03) 1px,
-                      transparent 1px,
-                      transparent 60px
-                    )
-                  `,
-                }}
-              />
-              
               {/* Content */}
               <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
                 <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/25 to-primary/15 shadow-[0_0_25px_rgba(59,130,246,0.5)] transition-all duration-500 hover:scale-110 hover:shadow-[0_0_35px_rgba(59,130,246,0.6)]">
@@ -477,29 +445,6 @@ export default function LandingPage() {
               {/* Animated background glow - Blue */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/12 via-primary/6 to-transparent opacity-60" />
               <div className="absolute -inset-[1px] bg-gradient-to-br from-primary/35 via-primary/25 to-primary/15 rounded-2xl blur-2xl opacity-40 -z-10 transition-opacity duration-500 hover:opacity-50" />
-              
-              {/* Grid pattern overlay - white subtle */}
-              <div 
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  backgroundImage: `
-                    repeating-linear-gradient(
-                      0deg,
-                      rgba(255, 255, 255, 0.03) 0px,
-                      rgba(255, 255, 255, 0.03) 1px,
-                      transparent 1px,
-                      transparent 60px
-                    ),
-                    repeating-linear-gradient(
-                      90deg,
-                      rgba(255, 255, 255, 0.03) 0px,
-                      rgba(255, 255, 255, 0.03) 1px,
-                      transparent 1px,
-                      transparent 60px
-                    )
-                  `,
-                }}
-              />
               
               {/* Content */}
               <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
@@ -607,27 +552,6 @@ export default function LandingPage() {
           >
             <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-br from-primary/35 via-primary/25 to-primary/15 blur-2xl opacity-40 -z-10 transition-opacity duration-500 group-hover:opacity-55" />
             <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-60" />
-            <div 
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                backgroundImage: `
-                  repeating-linear-gradient(
-                    0deg,
-                    rgba(255, 255, 255, 0.03) 0px,
-                    rgba(255, 255, 255, 0.03) 1px,
-                    transparent 1px,
-                    transparent 60px
-                  ),
-                  repeating-linear-gradient(
-                    90deg,
-                    rgba(255, 255, 255, 0.03) 0px,
-                    rgba(255, 255, 255, 0.03) 1px,
-                    transparent 1px,
-                    transparent 60px
-                  )
-                `,
-              }}
-            />
             <div className="relative z-10 space-y-6">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">SDK snippet</span>
