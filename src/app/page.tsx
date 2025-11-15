@@ -848,10 +848,10 @@ export default function LandingPage() {
                   <div className="relative z-10 flex flex-col">
                     <h3 className="text-lg font-semibold text-foreground mb-3">{item.title}</h3>
                     <p className="flex-1 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
-                    <Link href="/docs" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all duration-200 hover:text-primary/80 hover:gap-3 group/link w-fit">
+                    {/* <Link href="/docs" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all duration-200 hover:text-primary/80 hover:gap-3 group/link w-fit">
                       <span>Read docs</span>
                       <span className="text-base transition-transform duration-200 group-hover/link:translate-x-1 group-hover/link:-translate-y-1">↗</span>
-                    </Link>
+                    </Link> */}
                   </div>
                 </motion.div>
               ))}
@@ -945,11 +945,8 @@ export default function LandingPage() {
 
       <footer className="border-t border-border/60 py-10 text-sm text-muted-foreground">
         <div className="container-main flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p>© {new Date().getFullYear()} D2D. Decentralize to deployment.</p>
+          <p>© {new Date().getFullYear()} D2D - Decentralize to deployment.</p>
           <div className="flex items-center gap-6">
-            <Link href="/docs" className="hover:text-foreground">
-              Documentation
-            </Link>
             <Link href="https://twitter.com/d2d_hq" className="hover:text-foreground" target="_blank">
               Twitter / X
             </Link>
