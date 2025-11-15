@@ -502,7 +502,7 @@ export default function LandingPage() {
 
       <section 
         id="reliability" 
-        className="section-divider py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24 2xl:py-28 relative"
+        className="section-divider py-12 sm:py-16 lg:py-20 xl:py-24 2xl:py-28 relative"
       >
         {/* Background image with 80% opacity */}
         <div 
@@ -536,57 +536,57 @@ export default function LandingPage() {
           }}
         />
         
-        <div className="container-main relative z-10">
-          <div className="mx-auto max-w-4xl space-y-6 sm:space-y-8 md:space-y-10 lg:space-y-12">
+        <div className="container-main relative z-10 cq">
+          <div className="max-w-4xl space-y-6">
             {/* Header Section */}
-            <div className="space-y-3 sm:space-y-4 text-center">
-              <span className="inline-block text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-primary">// reliability & transparency</span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground leading-tight px-4 sm:px-0">
+            <div className="space-y-4">
+              <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// reliability & transparency</span>
+              <h2 className="text-3xl font-bold text-foreground sm:text-4xl">
                 Proof-backed deployments, monitored forever.
               </h2>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-4 sm:px-6 md:px-0 leading-relaxed">
+              <p className="text-base text-muted-foreground">
                 D2D verifies binaries before deploy, hands you ownership receipts, and keeps rent monitored so audits stay simple.
               </p>
             </div>
             
             {/* Features Grid */}
-            <div className="grid gap-4 sm:gap-5 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 px-4 sm:px-6 md:px-0">
+            <div className="grid gap-4 sm:grid-cols-2">
               {RELIABILITY_FEATURES.map((item, idx) => (
                 <div
                   key={item.title}
-                  className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-primary/25 p-4 sm:p-5 md:p-6 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_35px_rgba(59,130,246,0.4)] hover:-translate-y-1 hover:scale-[1.01]"
+                  className="group relative overflow-hidden rounded-2xl border border-primary/25 p-6 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_35px_rgba(59,130,246,0.4)] hover:-translate-y-1 hover:scale-[1.01]"
                   style={{
                     background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.95) 0%, rgba(5, 8, 16, 0.90) 50%, rgba(3, 5, 16, 0.95) 100%)',
                   }}
                 >
                   {/* Blue glow effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/12 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <div className="absolute -inset-[2px] bg-gradient-to-br from-primary/25 via-primary/15 to-transparent rounded-xl sm:rounded-2xl blur-xl opacity-0 transition-opacity duration-500 group-hover:opacity-60 -z-10" />
+                  <div className="absolute -inset-[2px] bg-gradient-to-br from-primary/25 via-primary/15 to-transparent rounded-2xl blur-xl opacity-0 transition-opacity duration-500 group-hover:opacity-60 -z-10" />
                   
                   {/* Vertical Stacked Content */}
-                  <div className="relative z-10 flex flex-col gap-3 sm:gap-4 md:gap-5">
+                  <div className="relative z-10 flex flex-col gap-5">
                     {/* Icon + Title - Top, Left Aligned */}
-                    <div className="flex items-center gap-3 sm:gap-4">
-                      <div className="flex h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 shrink-0 items-center justify-center rounded-lg sm:rounded-xl border border-primary/40 bg-gradient-to-br from-primary/25 to-primary/15 ring-1 ring-primary/50 shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]">
-                        <div className="h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-primary/70 transition-all duration-300 group-hover:scale-110" />
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-gradient-to-br from-primary/25 to-primary/15 ring-1 ring-primary/50 shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]">
+                        <div className="h-5 w-5 rounded-full bg-primary/70 transition-all duration-300 group-hover:scale-110" />
                       </div>
-                      <h3 className="text-sm sm:text-base md:text-lg font-bold uppercase tracking-[0.15em] text-foreground leading-tight">
+                      <h3 className="text-base font-bold uppercase tracking-[0.15em] text-foreground leading-tight">
                         {item.title}
                       </h3>
                     </div>
                     
                     {/* Body Text - Below Title, Vertical Block */}
-                    <p className="text-xs sm:text-sm md:text-base leading-relaxed text-muted-foreground">
+                    <p className="text-sm leading-relaxed text-muted-foreground">
                       {item.description}
                     </p>
                     
                     {/* Action Label - Below Body Text, Left Aligned */}
                     <Link 
                       href="/docs" 
-                      className="inline-flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-primary transition-all duration-200 hover:text-primary/80 hover:gap-2.5 sm:hover:gap-3 group/link w-fit"
+                      className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary transition-all duration-200 hover:text-primary/80 hover:gap-3 group/link w-fit"
                     >
                       <span>{item.cta}</span>
-                      <span className="text-sm sm:text-base transition-transform duration-200 group-hover/link:translate-x-1 group-hover/link:-translate-y-1">↗</span>
+                      <span className="text-base transition-transform duration-200 group-hover/link:translate-x-1 group-hover/link:-translate-y-1">↗</span>
                     </Link>
                   </div>
                   
