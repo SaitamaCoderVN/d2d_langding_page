@@ -3,15 +3,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 import { AnimatedButton } from '@/components/ui/animated-button'
-
-const HERO_STATS = [
-  { label: 'Monthly Fee', value: '~0.5% of rent (avg ≈ $5)' },
-  { label: 'Rent Access', value: 'Borrow up to 10+ SOL' },
-  { label: 'Backer Yield', value: '10 – 15% target APY' },
-  { label: 'Ownership Proof', value: 'Mainnet tx & upgrade keys' },
-];
 
 const FLOW_STEPS = [
   'Connect wallet & submit your devnet program ID',
@@ -68,6 +62,44 @@ const SDK_FEATURES = [
   },
 ];
 
+// Animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6 }
+  }
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { duration: 0.6 }
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.5 }
+  }
+};
+
 export default function LandingPage() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isLogoInView, setIsLogoInView] = useState(false);
@@ -75,6 +107,22 @@ export default function LandingPage() {
   const [isMouseHovering, setIsMouseHovering] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const logoRef = useRef<HTMLImageElement>(null);
+  
+  // Refs for scroll animations
+  const problemRef = useRef(null);
+  const statsRef = useRef(null);
+  const flowRef = useRef(null);
+  const capitalRef = useRef(null);
+  const programmableRef = useRef(null);
+  const sdkRef = useRef(null);
+  
+  // useInView hooks
+  const problemInView = useInView(problemRef, { once: true, margin: "-100px" });
+  const statsInView = useInView(statsRef, { once: true, margin: "-100px" });
+  const flowInView = useInView(flowRef, { once: true, margin: "-100px" });
+  const capitalInView = useInView(capitalRef, { once: true, margin: "-100px" });
+  const programmableInView = useInView(programmableRef, { once: true, margin: "-100px" });
+  const sdkInView = useInView(sdkRef, { once: true, margin: "-100px" });
 
   useEffect(() => {
     let rafId: number | null = null;
@@ -309,19 +357,19 @@ export default function LandingPage() {
                 <div className={`absolute left-0 top-full min-w-[160px] pt-[10px] z-30 transition-all duration-200 ${activeDropdown === 'network' ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible pointer-events-none'}`}>
                   <div className="bg-background border border-primary/20 shadow-xl rounded-lg py-2 backdrop-blur-xl">
                     <Link
-                      href=""
+                      href="https://github.com/D2dProtocol"
                       className="block px-5 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-foreground hover:bg-primary/5 hover:text-primary transition"
                     >
                       Contributors
                     </Link>
                     <Link
-                      href=""
+                      href="https://t.me/d2d_hq"
                       className="block px-5 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-foreground hover:bg-primary/5 hover:text-primary transition"
                     >
                       Telegram
                     </Link>
                     <Link
-                      href=""
+                      href="https://x.com/d2d_hq"
                       className="block px-5 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-foreground hover:bg-primary/5 hover:text-primary transition"
                     >
                       X
@@ -348,11 +396,22 @@ export default function LandingPage() {
           <div className="absolute right-0 top-1/3 h-72 w-72 rounded-full bg-primary/20 blur-3xl motion-safe:animate-[glow_10s_linear_infinite_reverse]" />
           </div>
         <div className="container-main relative z-10 flex flex-col gap-8 py-12 sm:gap-12 sm:py-16 lg:flex-row lg:items-center lg:justify-between lg:gap-16 lg:py-24 xl:gap-20 xl:py-28 2xl:gap-24 2xl:py-32">
-          <div className="w-full max-w-2xl space-y-8 cq lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary shadow-[0_0_20px_rgba(59,130,246,0.4)] backdrop-blur-sm transition-all duration-300 hover:border-primary/70 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] hover:scale-[1.02]">
+          <motion.div 
+            className="w-full max-w-2xl space-y-8 cq lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl"
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
+          >
+            <motion.span 
+              variants={fadeInUp}
+              className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary shadow-[0_0_20px_rgba(59,130,246,0.4)] backdrop-blur-sm transition-all duration-300 hover:border-primary/70 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] hover:scale-[1.02]"
+            >
                D2D – Decentralize to deployment
-            </span>
-            <div className="space-y-6">
+            </motion.span>
+            <motion.div 
+              variants={fadeInUp}
+              className="space-y-6"
+            >
               <h2 className="hero-heading text-foreground">
                 Deploy your Solana program on mainnet.
             <br />
@@ -360,22 +419,29 @@ export default function LandingPage() {
                   With $5/month.
                 </span>
               </h2>
-          </div>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            </motion.div>
+            <motion.div 
+              variants={fadeInUp}
+              className="flex flex-col gap-3 sm:flex-row sm:items-center"
+            >
               <AnimatedButton
                 label="Launch app"
                 href="https://www.app.deployd2d.xyz/"
                 target="_blank"
                 rel="noopener noreferrer"
               />
-            </div>
+            </motion.div>
 
-          </div>
+          </motion.div>
 
-          <div className="relative w-full max-w-xl rounded-2xl border border-primary/35 p-8 shadow-[0_30px_70px_-45px_rgba(59,130,246,0.6)] backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_35px_80px_-40px_rgba(59,130,246,0.75)] hover:scale-[1.01]"
+          <motion.div 
+            className="relative w-full max-w-xl rounded-2xl border border-primary/35 p-8 shadow-[0_30px_70px_-45px_rgba(59,130,246,0.6)] backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_35px_80px_-40px_rgba(59,130,246,0.75)] hover:scale-[1.01]"
             style={{
               background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.98) 0%, rgba(5, 8, 16, 0.95) 50%, rgba(3, 5, 16, 0.98) 100%)',
             }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-primary/12 via-primary/6 to-transparent opacity-60" />
             <div className="absolute -inset-[1px] bg-gradient-to-br from-primary/35 via-primary/25 to-primary/15 rounded-2xl blur-2xl opacity-40 -z-10 transition-opacity duration-500 hover:opacity-50" />
@@ -384,11 +450,11 @@ export default function LandingPage() {
                 <Image src="/image_1.jpg" alt="D2D hero visual" width={500} height={500} />
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      <section id="problem" className="section-divider py-12 sm:py-16 lg:py-20 xl:py-24 2xl:py-28 relative overflow-hidden">
+      <section ref={problemRef} id="problem" className="section-divider py-12 sm:py-16 lg:py-20 xl:py-24 2xl:py-28 relative overflow-hidden">
         
         {/* Light effect overlay for this section - above dark overlay */}
         <div 
@@ -407,9 +473,17 @@ export default function LandingPage() {
           }}
         />
         
-        <div className="container-main relative z-10 cq grid gap-8 sm:gap-10 lg:gap-12 xl:gap-14 2xl:gap-16 lg:grid-cols-2 lg:items-center">
+        <motion.div 
+          className="container-main relative z-10 cq grid gap-8 sm:gap-10 lg:gap-12 xl:gap-14 2xl:gap-16 lg:grid-cols-2 lg:items-center"
+          initial="hidden"
+          animate={problemInView ? "visible" : "hidden"}
+          variants={staggerContainer}
+        >
           {/* Solana Logo - Left side */}
-          <div className="relative order-2 lg:order-1 flex items-center justify-center py-5 sm:py-9 lg:py-13">
+          <motion.div 
+            className="relative order-2 lg:order-1 flex items-center justify-center py-5 sm:py-9 lg:py-13"
+            variants={fadeIn}
+          >
             <div className="relative group cursor-pointer" style={{ perspective: '1000px' }}>
               <img
                 ref={logoRef}
@@ -441,18 +515,24 @@ export default function LandingPage() {
                 }}
               />
             </div>
-          </div>
+          </motion.div>
           
           {/* Content - Right side */}
-          <div className="space-y-6 order-1 lg:order-2">
-            <div className="space-y-4">
+          <motion.div 
+            className="space-y-6 order-1 lg:order-2"
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeInUp} className="space-y-4">
               <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// problem</span>
               <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Why rent blocks mainnet launches.</h2>
               <p className="text-base text-muted-foreground">
               Deploying a Solana program on mainnet costs up to ~$1,000, which blocks most developers from launching real products. Thousands of devnet projects never reach users, never generate liquidity, and never contribute to ecosystem growth because deployment is too costly, slow, and operationally complex.
               </p>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
+            </motion.div>
+            <motion.div 
+              className="grid gap-4 sm:grid-cols-2"
+              variants={staggerContainer}
+            >
               {[
                 {
                   title: 'High Cost',
@@ -471,7 +551,10 @@ export default function LandingPage() {
                   copy: 'Solana loses potential dApps, transactions, and capital flow.'
                 },
               ].map((item) => (
-                <div key={item.title} className="group relative overflow-hidden rounded-2xl border border-primary/25 p-5 text-sm text-muted-foreground backdrop-blur-sm transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:-translate-y-1 hover:scale-[1.02]"
+                <motion.div 
+                  key={item.title} 
+                  variants={staggerItem}
+                  className="group relative overflow-hidden rounded-2xl border border-primary/25 p-5 text-sm text-muted-foreground backdrop-blur-sm transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:-translate-y-1 hover:scale-[1.02]"
                   style={{
                     background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.90) 0%, rgba(5, 8, 16, 0.85) 50%, rgba(3, 5, 16, 0.90) 100%)',
                   }}
@@ -481,27 +564,36 @@ export default function LandingPage() {
                     <p className="font-semibold text-foreground mb-2 transition-colors duration-300 group-hover:text-primary/90">{item.title}</p>
                     <p className="leading-relaxed">{item.copy}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </section>
 
-      <section id="flow" className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32">
-        <div className="container-main cq grid gap-8 sm:gap-10 lg:gap-12 xl:gap-14 2xl:gap-16 lg:grid-cols-2 lg:items-center">
-          <div className="space-y-8">
-            <div className="space-y-4 text-center lg:text-left">
+      <section ref={flowRef} id="flow" className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32">
+        <motion.div 
+          className="container-main cq grid gap-8 sm:gap-10 lg:gap-12 xl:gap-14 2xl:gap-16 lg:grid-cols-2 lg:items-center"
+          initial="hidden"
+          animate={flowInView ? "visible" : "hidden"}
+          variants={staggerContainer}
+        >
+          <motion.div variants={staggerContainer} className="space-y-8">
+            <motion.div variants={fadeInUp} className="space-y-4 text-center lg:text-left">
               <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// solution</span>
               <h2 className="text-3xl font-bold text-foreground sm:text-4xl">One seamless loop from devnet → mainnet deployment</h2>
               <p className="max-w-2xl text-lg text-muted-foreground">
               Wallet connect, verification, borrowing, and monitoring live in a single subscription so you can prove deploy ownership without touching raw rent math.
               </p>
-          </div>
-            <div className="grid gap-5 sm:grid-cols-2">
+            </motion.div>
+            <motion.div 
+              className="grid gap-5 sm:grid-cols-2"
+              variants={staggerContainer}
+            >
               {FLOW_STEPS.slice(0, 4).map((step, idx) => (
-                <div
+                <motion.div
                   key={step}
+                  variants={staggerItem}
                   className="group relative overflow-hidden rounded-2xl border border-primary/35 p-6 text-sm text-muted-foreground shadow-[0_20px_40px_-25px_rgba(59,130,246,0.45)] backdrop-blur-xl transition-all duration-500 hover:-translate-y-1.5 hover:border-primary/60 hover:shadow-[0_25px_50px_-20px_rgba(59,130,246,0.6)] hover:scale-[1.02]"
                   style={{
                     background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.95) 0%, rgba(5, 8, 16, 0.90) 50%, rgba(3, 5, 16, 0.95) 100%)',
@@ -514,11 +606,14 @@ export default function LandingPage() {
                     </div>
                     <p className="text-base leading-relaxed text-foreground transition-colors duration-300 group-hover:text-primary/90">{step}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
-                </div>
-          <div className="space-y-5">
+            </motion.div>
+          </motion.div>
+          <motion.div 
+            variants={fadeIn}
+            className="space-y-5"
+          >
             <div 
               className="media-frame min-h-[240px] sm:min-h-[300px] lg:min-h-[400px] relative"
               style={{
@@ -545,27 +640,39 @@ export default function LandingPage() {
                 </span>
               </div>
             </div>
-                  </div>
-                </div>
+          </motion.div>
+        </motion.div>
       </section>
 
-      <section id="capital" className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32">
-        <div className="container-main cq">
-          <div className="space-y-4 text-center mb-12 sm:mb-16">
+      <section ref={capitalRef} id="capital" className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32">
+        <motion.div 
+          className="container-main cq"
+          initial="hidden"
+          animate={capitalInView ? "visible" : "hidden"}
+          variants={staggerContainer}
+        >
+          <motion.div variants={fadeInUp} className="space-y-4 text-center mb-12 sm:mb-16">
             <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// capital efficiency</span>
             <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Subsidized Deployments Without Capital Waste</h2>
             <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
             Developers deploy to mainnet for $5 while D2D recycles community liquidity, eliminating the upfront 1–10 SOL rent barrier and removing capital drag for both builders and backers.
             </p>
-          </div>
+          </motion.div>
           
           {/* Container with image and items in 2 columns */}
-          <div className="grid gap-6 sm:gap-8 lg:gap-10 xl:gap-12 lg:grid-cols-3 lg:items-center max-w-6xl mx-auto">
+          <motion.div 
+            className="grid gap-6 sm:gap-8 lg:gap-10 xl:gap-12 lg:grid-cols-3 lg:items-center max-w-6xl mx-auto"
+            variants={staggerContainer}
+          >
             {/* Left Column - Items 0 and 2 */}
-            <div className="hidden lg:flex flex-col gap-6 space-y-0">
+            <motion.div 
+              className="hidden lg:flex flex-col gap-6 space-y-0"
+              variants={staggerContainer}
+            >
               {[CAPITAL_FEATURES[0], CAPITAL_FEATURES[2]].map((item) => (
-                <div
+                <motion.div
                   key={item.title}
+                  variants={staggerItem}
                   className="group relative overflow-hidden rounded-2xl border border-primary/25 p-6 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_35px_rgba(59,130,246,0.4)] hover:-translate-y-1 hover:scale-[1.01]"
                   style={{
                     background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.95) 0%, rgba(5, 8, 16, 0.90) 50%, rgba(3, 5, 16, 0.95) 100%)',
@@ -592,12 +699,13 @@ export default function LandingPage() {
                     </Link>
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/60 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             {/* Center - Image */}
-            <div 
+            <motion.div 
+              variants={fadeIn}
               className="relative overflow-hidden rounded-2xl border border-primary/35 backdrop-blur-xl shadow-[0_0_40px_rgba(59,130,246,0.3)] transition-all duration-500 hover:shadow-[0_0_50px_rgba(59,130,246,0.4)] hover:scale-[1.01] w-full aspect-[4/3]"
               style={{
                 backgroundImage: 'url(/image_4.png)',
@@ -611,13 +719,17 @@ export default function LandingPage() {
               
               {/* Animated background glow */}
               <div className="absolute -inset-[1px] bg-gradient-to-br from-primary/35 via-primary/25 to-primary/15 rounded-2xl blur-2xl opacity-40 -z-10 transition-opacity duration-500 hover:opacity-50" />
-            </div>
+            </motion.div>
 
             {/* Right Column - Items 1 and 3 */}
-            <div className="hidden lg:flex flex-col gap-6 space-y-0">
+            <motion.div 
+              className="hidden lg:flex flex-col gap-6 space-y-0"
+              variants={staggerContainer}
+            >
               {[CAPITAL_FEATURES[1], CAPITAL_FEATURES[3]].map((item) => (
-                <div
+                <motion.div
                   key={item.title}
+                  variants={staggerItem}
                   className="group relative overflow-hidden rounded-2xl border border-primary/25 p-6 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_35px_rgba(59,130,246,0.4)] hover:-translate-y-1 hover:scale-[1.01]"
                   style={{
                     background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.95) 0%, rgba(5, 8, 16, 0.90) 50%, rgba(3, 5, 16, 0.95) 100%)',
@@ -644,19 +756,26 @@ export default function LandingPage() {
                     </Link>
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/60 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                </div>
+                </motion.div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Mobile: Image and feature items */}
-          <div className="lg:hidden space-y-8">
+          <motion.div 
+            className="lg:hidden space-y-8"
+            variants={staggerContainer}
+          >
             
             {/* Feature items displayed as grid below image */}
-            <div className="grid gap-5 grid-cols-1">
+            <motion.div 
+              className="grid gap-5 grid-cols-1"
+              variants={staggerContainer}
+            >
             {CAPITAL_FEATURES.map((item) => (
-              <div
+              <motion.div
                 key={item.title}
+                variants={staggerItem}
                 className="group relative overflow-hidden rounded-2xl border border-primary/25 p-6 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_35px_rgba(59,130,246,0.4)] hover:-translate-y-1 hover:scale-[1.01]"
                 style={{
                   background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.95) 0%, rgba(5, 8, 16, 0.90) 50%, rgba(3, 5, 16, 0.95) 100%)',
@@ -690,26 +809,37 @@ export default function LandingPage() {
                 
                 {/* Accent line */}
                 <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/60 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-              </div>
+              </motion.div>
             ))}
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </section>
 
-      <section id="programmable" className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32 text-foreground">
-        <div className="container-main cq grid gap-8 sm:gap-12 lg:gap-16 xl:gap-20 2xl:gap-24 lg:grid-cols-2 lg:items-center">
-          <div className="space-y-8">
-            <div className="space-y-4">
+      <section ref={programmableRef} id="programmable" className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32 text-foreground">
+        <motion.div 
+          className="container-main cq grid gap-8 sm:gap-12 lg:gap-16 xl:gap-20 2xl:gap-24 lg:grid-cols-2 lg:items-center"
+          initial="hidden"
+          animate={programmableInView ? "visible" : "hidden"}
+          variants={staggerContainer}
+        >
+          <motion.div variants={staggerContainer} className="space-y-8">
+            <motion.div variants={fadeInUp} className="space-y-4">
               <span className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">// sdk & automation</span>
               <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">Deploy via SDK or API.</h2>
               <p className="text-lg text-muted-foreground">
                 TypeScript SDK, REST API, and webhook events enable programmatic deployments and CI/CD integration.
               </p>
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2">
+            </motion.div>
+            <motion.div 
+              className="grid gap-6 sm:grid-cols-2"
+              variants={staggerContainer}
+            >
               {SDK_FEATURES.map((item) => (
-                <div key={item.title} className="group relative overflow-hidden flex flex-col rounded-2xl border border-primary/25 p-6 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.35)] hover:-translate-y-1 hover:scale-[1.01]"
+                <motion.div 
+                  key={item.title} 
+                  variants={staggerItem}
+                  className="group relative overflow-hidden flex flex-col rounded-2xl border border-primary/25 p-6 backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.35)] hover:-translate-y-1 hover:scale-[1.01]"
                   style={{
                     background: 'linear-gradient(135deg, rgba(10, 15, 31, 0.90) 0%, rgba(22, 35, 58, 0.80) 50%, rgba(10, 15, 31, 0.90) 100%)',
                   }}
@@ -723,13 +853,15 @@ export default function LandingPage() {
                       <span className="text-base transition-transform duration-200 group-hover/link:translate-x-1 group-hover/link:-translate-y-1">↗</span>
                     </Link>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
-          </div>
+          </motion.div>
 
-          <div className="group relative overflow-hidden rounded-2xl border border-primary/35 p-8 shadow-[0_0_40px_rgba(59,130,246,0.3)] backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_55px_rgba(59,130,246,0.45)] hover:scale-[1.01]"
+          <motion.div 
+            variants={fadeIn}
+            className="group relative overflow-hidden rounded-2xl border border-primary/35 p-8 shadow-[0_0_40px_rgba(59,130,246,0.3)] backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_55px_rgba(59,130,246,0.45)] hover:scale-[1.01]"
             style={{
               background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.98) 0%, rgba(5, 8, 16, 0.95) 50%, rgba(3, 5, 16, 0.98) 100%)',
             }}
@@ -772,13 +904,20 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
-          </div>  
-        </div>
+          </motion.div>  
+        </motion.div>
       </section>
 
-      <section className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32">
-        <div className="container-main">
-          <div className="group relative overflow-hidden rounded-2xl border border-primary/35 p-6 sm:p-8 lg:p-12 text-center shadow-[0_40px_90px_-45px_rgba(59,130,246,0.75)] backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_45px_100px_-45px_rgba(59,130,246,0.85)] hover:scale-[1.01]"
+      <section ref={sdkRef} className="section-divider py-12 sm:py-16 lg:py-24 xl:py-28 2xl:py-32">
+        <motion.div 
+          className="container-main"
+          initial="hidden"
+          animate={sdkInView ? "visible" : "hidden"}
+          variants={fadeInUp}
+        >
+          <motion.div 
+            className="group relative overflow-hidden rounded-2xl border border-primary/35 p-6 sm:p-8 lg:p-12 text-center shadow-[0_40px_90px_-45px_rgba(59,130,246,0.75)] backdrop-blur-xl transition-all duration-500 hover:border-primary/50 hover:shadow-[0_45px_100px_-45px_rgba(59,130,246,0.85)] hover:scale-[1.01]"
+            variants={fadeInUp}
             style={{
               background: 'linear-gradient(135deg, rgba(3, 5, 16, 0.98) 0%, rgba(5, 8, 16, 0.95) 50%, rgba(3, 5, 16, 0.98) 100%)',
             }}
@@ -800,8 +939,8 @@ export default function LandingPage() {
                 <AnimatedButton label="Read Docs" variant="outline" href="/docs" />
             </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       <footer className="border-t border-border/60 py-10 text-sm text-muted-foreground">
