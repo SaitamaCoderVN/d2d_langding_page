@@ -270,7 +270,6 @@ export default function LandingPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               />
-              <AnimatedButton label="View Documentation" variant="outline" href="/docs" />
             </div>
 
           </div>
