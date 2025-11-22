@@ -395,3 +395,301 @@
   display: none;
 }
 
+/* Utility classes */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Blog Content Styles - Light theme for Fystack style */
+.blog-content-light {
+  line-height: 1.7;
+  color: #374151;
+  font-size: 18px;
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+.blog-content-light h2 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  margin-top: 48px;
+  margin-bottom: 16px;
+  color: #111827;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.blog-content-light h3 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: #111827;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.blog-content-light h4 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 32px;
+  margin-bottom: 8px;
+  color: #111827;
+  line-height: 1.3;
+}
+
+.blog-content-light p {
+  margin-bottom: 24px;
+  color: #374151;
+  line-height: 1.7;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.blog-content-light ul,
+.blog-content-light ol {
+  margin-bottom: 24px;
+  padding-left: 28px;
+  color: #374151;
+}
+
+.blog-content-light li {
+  margin-bottom: 12px;
+  line-height: 1.7;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.blog-content-light ul {
+  list-style-type: disc;
+}
+
+.blog-content-light ol {
+  list-style-type: decimal;
+}
+
+.blog-content-light a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-decoration-color: rgba(37, 99, 235, 0.3);
+  text-underline-offset: 2px;
+  transition: all 0.2s ease;
+}
+
+.blog-content-light a:hover {
+  color: #1d4ed8;
+  text-decoration-color: #2563eb;
+}
+
+.blog-content-light strong {
+  font-weight: 600;
+  color: #111827;
+}
+
+.blog-content-light code {
+  background: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #111827;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  border: 1px solid #e5e7eb;
+}
+
+.blog-content-light pre {
+  background: #1f2937;
+  color: #f9fafb;
+  padding: 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 32px 0;
+  font-size: 16px;
+  line-height: 1.6;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  border: 1px solid #374151;
+}
+
+.blog-content-light pre code {
+  background: transparent;
+  color: #f9fafb;
+  padding: 0;
+  border: none;
+  font-size: inherit;
+}
+
+.blog-content-light blockquote {
+  border-left: 3px solid #3b82f6;
+  padding-left: 20px;
+  margin: 32px 0;
+  color: #4b5563;
+  font-style: italic;
+  background: #f9fafb;
+  padding: 20px 20px;
+  border-radius: 6px;
+  font-size: 18px;
+}
+
+.blog-content-light img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 32px 0;
+}
+
+.blog-content-light hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 48px 0;
+}
+
+/* Blog Content Styles - Dark theme for Solana News style */
+.blog-content-dark {
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 18px;
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+.blog-content-dark h2 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  margin-top: 48px;
+  margin-bottom: 16px;
+  color: #ffffff;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.blog-content-dark h3 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: #ffffff;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.blog-content-dark h4 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 32px;
+  margin-bottom: 8px;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.blog-content-dark p {
+  margin-bottom: 24px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.blog-content-dark ul,
+.blog-content-dark ol {
+  margin-bottom: 24px;
+  padding-left: 28px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.blog-content-dark li {
+  margin-bottom: 12px;
+  line-height: 1.7;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.blog-content-dark ul {
+  list-style-type: disc;
+}
+
+.blog-content-dark ol {
+  list-style-type: decimal;
+}
+
+.blog-content-dark a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+  text-underline-offset: 2px;
+  transition: all 0.2s ease;
+}
+
+.blog-content-dark a:hover {
+  color: #ffffff;
+  text-decoration-color: rgba(255, 255, 255, 0.8);
+}
+
+.blog-content-dark strong {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.blog-content-dark code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #ffffff;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.blog-content-dark pre {
+  background: #1a1a1a;
+  color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 32px 0;
+  font-size: 16px;
+  line-height: 1.6;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.blog-content-dark pre code {
+  background: transparent;
+  color: #f5f5f5;
+  padding: 0;
+  border: none;
+  font-size: inherit;
+}
+
+.blog-content-dark blockquote {
+  border-left: 3px solid rgba(255, 255, 255, 0.3);
+  padding-left: 20px;
+  margin: 32px 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px 20px;
+  border-radius: 6px;
+  font-size: 18px;
+}
+
+.blog-content-dark img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 32px 0;
+}
+
+.blog-content-dark hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 48px 0;
+}
+

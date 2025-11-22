@@ -327,10 +327,10 @@ export default function LandingPage() {
                       Whitepaper
                     </Link>
                     <Link
-                      href=""
+                      href="/blog"
                       className="block px-5 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-foreground hover:bg-primary/5 hover:text-primary transition"
                     >
-                      Journal
+                      Blog
                     </Link>
                     <Link
                       href=""
