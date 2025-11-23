@@ -30,10 +30,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://deployd2d.xyz';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://d2dprotocol.com';
   const postUrl = `${siteUrl}/blog/${slug}`;
-  // Use custom ogImage from frontmatter if available, otherwise use default
-  const ogImage = post.ogImage || `${siteUrl}/og-image.png`;
+  // Always use D2D logo for Twitter Card - use custom ogImage if provided, otherwise default to favicon
+  const ogImage = post.ogImage || `${siteUrl}/favicon.svg`;
 
   return {
     title: `${post.title} | D2D Blog`,
@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: post.title,
+          alt: 'D2D - Decentralized Deployment',
         },
       ],
     },
@@ -84,8 +84,8 @@ export default async function BlogPostPage({ params }: PageProps) {
   const readTime = Math.max(1, Math.ceil(post.content.length / 1000)) + ' min read';
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://deployd2d.xyz';
   const postUrl = `${siteUrl}/blog/${slug}`;
-  // Use custom ogImage from frontmatter if available, otherwise use default
-  const ogImage = post.ogImage || `${siteUrl}/og-image.png`;
+  // Always use D2D logo for Twitter Card - use custom ogImage if provided, otherwise default to favicon
+  const ogImage = post.ogImage || `${siteUrl}/favicon.svg`;
 
   // JSON-LD structured data for better SEO and social sharing
   const jsonLd = {
