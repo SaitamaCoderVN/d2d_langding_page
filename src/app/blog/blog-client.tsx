@@ -25,13 +25,23 @@ function PostCard({ post }: { post: BlogPost }) {
 
   return (
     <article className="group flex flex-col h-full">
-      {/* Image Placeholder */}
+      {/* Featured Image */}
       <Link href={`/blog/${post.slug}`} className="block mb-5 group/image">
-        <div 
-          className="w-full aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center transition-transform duration-300 group-hover/image:scale-[1.02]"
-        >
-          <div className="text-white/20 text-2xl font-bold">{post.category || 'D2D'}</div>
-        </div>
+        {post.featuredImage ? (
+          <div className="w-full aspect-video rounded-xl overflow-hidden transition-transform duration-300 group-hover/image:scale-[1.02]">
+            <img 
+              src={post.featuredImage} 
+              alt={post.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        ) : (
+          <div 
+            className="w-full aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center transition-transform duration-300 group-hover/image:scale-[1.02]"
+          >
+            <div className="text-white/20 text-2xl font-bold">{post.category || 'D2D'}</div>
+          </div>
+        )}
       </Link>
 
       <div className="flex flex-col flex-1 px-1">
@@ -101,11 +111,21 @@ function FeaturedPost({ post }: { post: BlogPost }) {
     <article className="lg:col-span-2 group">
       <Link href={`/blog/${post.slug}`} className="block group/image">
         {/* Featured Image */}
-        <div 
-          className="w-full aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-blue-600 to-blue-800 mb-6 flex items-center justify-center transition-transform duration-300 group-hover/image:scale-[1.02]"
-        >
-          <div className="text-white/30 text-5xl font-bold">{post.category || 'D2D'}</div>
-        </div>
+        {post.featuredImage ? (
+          <div className="w-full aspect-video rounded-xl overflow-hidden mb-6 transition-transform duration-300 group-hover/image:scale-[1.02]">
+            <img 
+              src={post.featuredImage} 
+              alt={post.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        ) : (
+          <div 
+            className="w-full aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-blue-600 to-blue-800 mb-6 flex items-center justify-center transition-transform duration-300 group-hover/image:scale-[1.02]"
+          >
+            <div className="text-white/30 text-5xl font-bold">{post.category || 'D2D'}</div>
+          </div>
+        )}
       </Link>
 
       <div className="space-y-5 px-1">

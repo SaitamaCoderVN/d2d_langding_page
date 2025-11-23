@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 import { notFound } from 'next/navigation';
+import React from 'react';
 
 interface PageProps {
   params: Promise<{
@@ -31,8 +32,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://deployd2d.xyz';
   const postUrl = `${siteUrl}/blog/${slug}`;
-  // Use og-image.png if available, fallback to favicon.svg
-  const ogImage = `${siteUrl}/og-image.png`;
+  // Use custom ogImage from frontmatter if available, otherwise use default
+  const ogImage = post.ogImage || `${siteUrl}/og-image.png`;
 
   return {
     title: `${post.title} | D2D Blog`,
@@ -83,8 +84,8 @@ export default async function BlogPostPage({ params }: PageProps) {
   const readTime = Math.max(1, Math.ceil(post.content.length / 1000)) + ' min read';
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://deployd2d.xyz';
   const postUrl = `${siteUrl}/blog/${slug}`;
-  // Use og-image.png if available, fallback to favicon.svg
-  const ogImage = `${siteUrl}/og-image.png`;
+  // Use custom ogImage from frontmatter if available, otherwise use default
+  const ogImage = post.ogImage || `${siteUrl}/og-image.png`;
 
   // JSON-LD structured data for better SEO and social sharing
   const jsonLd = {
@@ -203,7 +204,11 @@ export default async function BlogPostPage({ params }: PageProps) {
             
             {/* Author & Meta - Better layout */}
             <div className="flex items-center gap-4 text-[14px] text-gray-500 pb-8 border-b border-gray-200">
-              <div className="w-11 h-11 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex-shrink-0"></div>
+              <img 
+                src="/favicon.svg" 
+                alt="D2D logo" 
+                className="w-11 h-11 rounded-full flex-shrink-0 object-cover"
+              />
               <div className="flex items-center gap-2.5 flex-wrap">
                 <span className="font-medium text-gray-900">{post.author}</span>
                 <span className="text-gray-300">•</span>
@@ -220,7 +225,10 @@ export default async function BlogPostPage({ params }: PageProps) {
               <ReactMarkdown
                 rehypePlugins={[rehypeRaw, rehypeSanitize]}
               >
-                {post.content}
+                {post.content.replace(
+                  /D2D Team/g,
+                  '<span class="d2d-team-with-logo"><img src="/favicon.svg" alt="D2D logo" class="d2d-team-logo" />D2D Team</span>'
+                )}
               </ReactMarkdown>
             </div>
           </article>

@@ -12,6 +12,27 @@ export interface BlogPost {
   category?: string;
   tags?: string[];
   featured?: boolean;
+  ogImage?: string; // Custom OG image for Twitter Card and social sharing
+  featuredImage?: string; // First image from content for blog listing
+}
+
+// Extract first image URL from markdown content
+function extractFirstImage(content: string): string | undefined {
+  // Try markdown image syntax: ![alt](url)
+  const markdownImageRegex = /!\[.*?\]\((https?:\/\/[^\s\)]+)\)/;
+  const markdownMatch = content.match(markdownImageRegex);
+  if (markdownMatch && markdownMatch[1]) {
+    return markdownMatch[1];
+  }
+
+  // Try HTML img tag: <img src="url" />
+  const htmlImageRegex = /<img[^>]+src=["'](https?:\/\/[^"']+)["'][^>]*>/i;
+  const htmlMatch = content.match(htmlImageRegex);
+  if (htmlMatch && htmlMatch[1]) {
+    return htmlMatch[1];
+  }
+
+  return undefined;
 }
 
 const blogDirectory = path.join(process.cwd(), 'content/blog');
@@ -31,6 +52,8 @@ export function getAllPosts(): BlogPost[] {
         const fileContents = fs.readFileSync(fullPath, 'utf8');
         const { data, content } = matter(fileContents);
 
+        const firstImage = extractFirstImage(content);
+
         return {
           slug,
           content,
@@ -41,6 +64,8 @@ export function getAllPosts(): BlogPost[] {
           category: data.category,
           tags: data.tags || [],
           featured: data.featured || false,
+          ogImage: data.ogImage,
+          featuredImage: firstImage,
         } as BlogPost;
       });
 
@@ -63,6 +88,8 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 
+    const firstImage = extractFirstImage(content);
+
     return {
       slug,
       content,
@@ -73,6 +100,8 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
       category: data.category,
       tags: data.tags || [],
       featured: data.featured || false,
+      ogImage: data.ogImage,
+      featuredImage: firstImage,
     } as BlogPost;
   } catch (error) {
     console.error(`Error reading post ${slug}:`, error);

@@ -550,6 +550,30 @@
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
+/* D2D Team with logo styling */
+.blog-content-light .d2d-team-with-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  vertical-align: middle;
+}
+
+.blog-content-light .d2d-team-logo {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+  box-shadow: none;
+  transition: none;
+}
+
+.blog-content-light .d2d-team-logo:hover {
+  transform: none;
+  box-shadow: none;
+}
+
 .blog-content-light hr {
   border: none;
   border-top: 1px solid #e5e7eb;
