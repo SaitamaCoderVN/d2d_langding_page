@@ -70,7 +70,11 @@ function PostCard({ post }: { post: BlogPost }) {
         {/* Author & Meta */}
         <div className="flex items-center justify-between text-[13px] text-gray-500 mt-auto pt-4 border-t border-gray-100">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex-shrink-0"></div>
+            <img 
+              src="/favicon.svg" 
+              alt="D2D logo" 
+              className="w-7 h-7 rounded-full flex-shrink-0 object-cover"
+            />
             <span className="font-medium text-gray-700">{post.author}</span>
           </div>
           <div className="flex items-center gap-2 text-gray-500">
@@ -139,7 +143,11 @@ function FeaturedPost({ post }: { post: BlogPost }) {
         
         {/* Author & Meta */}
         <div className="flex items-center gap-3.5 text-[14px] text-gray-500 pt-2">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex-shrink-0"></div>
+          <img 
+            src="/favicon.svg" 
+            alt="D2D logo" 
+            className="w-9 h-9 rounded-full flex-shrink-0 object-cover"
+          />
           <div className="flex items-center gap-2.5 flex-wrap">
             <span className="font-medium text-gray-700">{post.author}</span>
             <span className="text-gray-300">•</span>
