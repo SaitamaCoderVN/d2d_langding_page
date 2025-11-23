@@ -18,18 +18,27 @@ export interface BlogPost {
 
 // Extract first image URL from markdown content
 function extractFirstImage(content: string): string | undefined {
-  // Try markdown image syntax: ![alt](url)
-  const markdownImageRegex = /!\[.*?\]\((https?:\/\/[^\s\)]+)\)/;
+  if (!content) return undefined;
+
+  // Try markdown image syntax: ![alt](url) - improved regex to handle more cases
+  const markdownImageRegex = /!\[[^\]]*\]\((https?:\/\/[^\s\)]+)\)/;
   const markdownMatch = content.match(markdownImageRegex);
   if (markdownMatch && markdownMatch[1]) {
-    return markdownMatch[1];
+    return markdownMatch[1].trim();
   }
 
   // Try HTML img tag: <img src="url" />
   const htmlImageRegex = /<img[^>]+src=["'](https?:\/\/[^"']+)["'][^>]*>/i;
   const htmlMatch = content.match(htmlImageRegex);
   if (htmlMatch && htmlMatch[1]) {
-    return htmlMatch[1];
+    return htmlMatch[1].trim();
+  }
+
+  // Try markdown image with line breaks: ![alt](\nurl)
+  const markdownImageMultilineRegex = /!\[[^\]]*\]\(\s*(https?:\/\/[^\s\)]+)\s*\)/;
+  const multilineMatch = content.match(markdownImageMultilineRegex);
+  if (multilineMatch && multilineMatch[1]) {
+    return multilineMatch[1].trim();
   }
 
   return undefined;

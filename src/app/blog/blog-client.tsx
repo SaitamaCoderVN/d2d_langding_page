@@ -33,6 +33,15 @@ function PostCard({ post }: { post: BlogPost }) {
               src={post.featuredImage} 
               alt={post.title}
               className="w-full h-full object-cover"
+              onError={(e) => {
+                // Fallback to placeholder if image fails to load
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                const parent = target.parentElement;
+                if (parent) {
+                  parent.innerHTML = `<div class="w-full h-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center"><div class="text-white/20 text-2xl font-bold">${post.category || 'D2D'}</div></div>`;
+                }
+              }}
             />
           </div>
         ) : (
@@ -117,6 +126,15 @@ function FeaturedPost({ post }: { post: BlogPost }) {
               src={post.featuredImage} 
               alt={post.title}
               className="w-full h-full object-cover"
+              onError={(e) => {
+                // Fallback to placeholder if image fails to load
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                const parent = target.parentElement;
+                if (parent) {
+                  parent.innerHTML = `<div class="w-full h-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center"><div class="text-white/30 text-5xl font-bold">${post.category || 'D2D'}</div></div>`;
+                }
+              }}
             />
           </div>
         ) : (
@@ -192,6 +210,10 @@ export default function BlogPageClient() {
     fetch('/api/blog')
       .then(res => res.json())
       .then(data => {
+        console.log('Fetched posts:', data);
+        if (data.length > 0) {
+          console.log('First post featuredImage:', data[0].featuredImage);
+        }
         setAllPosts(data);
         setLoading(false);
       })
