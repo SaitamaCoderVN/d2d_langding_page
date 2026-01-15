@@ -6,6 +6,8 @@ import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 import { notFound } from 'next/navigation';
 import React from 'react';
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
 
 interface PageProps {
   params: Promise<{
@@ -121,175 +123,96 @@ export default async function BlogPostPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="min-h-screen bg-white">
-      {/* Header with light blue background */}
-      <header className="bg-blue-50 border-b border-blue-100 sticky top-0 z-50 backdrop-blur-sm bg-blue-50/95">
-        <div className="max-w-[1280px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
-          <div className="flex h-20 items-center justify-between">
-            <Link href="/" className="flex items-center space-x-3">
-              <div className="relative">
-                <div className="relative rounded-[25%] border-2 border-gray-900 p-0.5">
-                  <img 
-                    className="rounded-[25%]" 
-                    src="/favicon.svg" 
-                    alt="D2D logo" 
-                    width={40} 
-                    height={40}
-                  />
-                </div>
-              </div>
-              <div>
-                <h1 className="text-[14px] font-medium tracking-wide text-gray-900">D2D</h1>
-                <p className="text-[11px] text-gray-500">Decentralize to deployment</p>
-              </div>
-            </Link>
-            <nav className="hidden items-center space-x-8 text-[14px] font-medium text-gray-700 md:flex">
-              <Link href="/" className="hover:text-gray-900 transition-colors">
-                Home
-              </Link>
-              <Link href="/blog" className="hover:text-gray-900 transition-colors">
-                Blog
-              </Link>
-              <Link 
-                href="https://www.app.deployd2d.xyz/" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-5 py-2.5 text-[14px] font-medium text-white hover:bg-gray-800 transition-colors"
-              >
-                Launch App
-              </Link>
-            </nav>
-          </div>
+      
+      {/* Global Background Effects matching Landing Page */}
+      <div className="fixed inset-0 z-0 pointer-events-none bg-white">
+        <div className="absolute inset-0 bg-grid opacity-[0.4] [mask-image:linear-gradient(to_bottom,white,transparent)]" />
+        <div className="absolute top-0 right-0 translate-x-1/3 -translate-y-1/4 transform opacity-60">
+          <div className="h-[800px] w-[800px] rounded-full bg-blue-100/60 blur-3xl" />
         </div>
-      </header>
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2">
+           <div className="h-[600px] w-[600px] rounded-full bg-blue-500/10 blur-[120px]" />
+        </div>
+      </div>
 
-      {/* Main Content - Centered */}
-      <main className="max-w-[800px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 py-16 md:py-24">
-        <div>
-          {/* Back Button */}
-          <Link 
-            href="/blog"
-            className="inline-flex items-center gap-2 text-[14px] font-medium text-gray-600 hover:text-gray-900 transition-colors mb-12 group"
-          >
-            <span className="transition-transform duration-200 group-hover:-translate-x-1">←</span>
-            <span>Back to Blog</span>
-          </Link>
+      <div className="relative z-20 flex flex-col min-h-screen">
+        <Header />
 
-          {/* Article Header - Better spacing */}
-          <header className="mb-12">
-            {/* Categories */}
-            {(post.category || (post.tags && post.tags.length > 0)) && (
-              <div className="flex items-center gap-2 mb-6 flex-wrap">
-                {post.category && (
-                  <>
-                    <span className="text-[12px] text-gray-600 font-medium tracking-wide uppercase">
-                      {post.category}
-                    </span>
-                    {post.tags && post.tags.length > 0 && (
-                      <span className="text-[12px] text-gray-400">•</span>
-                    )}
-                  </>
-                )}
-                {post.tags && post.tags.slice(0, 2).map((tag, idx) => (
-                  <span key={tag}>
-                    {idx > 0 && <span className="text-[12px] text-gray-400 mr-1">•</span>}
-                    <span className="text-[12px] text-gray-600 font-medium tracking-wide uppercase">{tag}</span>
-                  </span>
-                ))}
-              </div>
-            )}
-            
-            <h1 className="text-[40px] md:text-[48px] lg:text-[56px] font-bold text-gray-900 leading-[1.1] mb-8 tracking-tight">
-              {post.title}
-            </h1>
-            
-            {/* Author & Meta - Better layout */}
-            <div className="flex items-center gap-4 text-[14px] text-gray-500 pb-8 border-b border-gray-200">
-              <img 
-                src="/favicon.svg" 
-                alt="D2D logo" 
-                className="w-11 h-11 rounded-full flex-shrink-0 object-cover"
-              />
-              <div className="flex items-center gap-2.5 flex-wrap">
-                <span className="font-medium text-gray-900">{post.author}</span>
-                <span className="text-gray-300">•</span>
-                <time dateTime={post.publishedAt} className="font-normal">{formattedDate}</time>
-                <span className="text-gray-300">•</span>
-                <span className="font-normal">{readTime}</span>
-              </div>
-            </div>
-          </header>
-
-          {/* Article Content - MDX rendered */}
-          <article className="prose prose-lg max-w-none">
-            <div className="blog-content-light">
-              <ReactMarkdown
-                rehypePlugins={[rehypeRaw, rehypeSanitize]}
-              >
-                {post.content.replace(
-                  /D2D Team/g,
-                  '<span class="d2d-team-with-logo"><img src="/favicon.svg" alt="D2D logo" class="d2d-team-logo" />D2D Team</span>'
-                )}
-              </ReactMarkdown>
-            </div>
-          </article>
-
-          {/* Article Footer - Better spacing */}
-          <div className="mt-20 pt-10 border-t border-gray-200">
+        {/* Main Content - Centered */}
+        <main className="max-w-[800px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 py-32 md:py-40 flex-grow">
+          <div>
+            {/* Back Button */}
             <Link 
               href="/blog"
-              className="inline-flex items-center gap-2 text-[16px] font-medium text-blue-600 hover:text-blue-700 transition-colors group"
+              className="inline-flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors mb-12 group uppercase tracking-widest"
             >
               <span className="transition-transform duration-200 group-hover:-translate-x-1">←</span>
               <span>Back to Blog</span>
             </Link>
-          </div>
-        </div>
-      </main>
 
-      {/* Footer - Centered */}
-      <footer className="bg-white border-t border-gray-200 mt-32">
-        <div className="max-w-[1280px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 py-16">
-          <div className="mb-12 text-center md:text-left">
-            <h3 className="text-[20px] font-medium text-gray-900 mb-4">Press room</h3>
-            <p className="text-[16px] text-gray-600 mb-8 max-w-2xl">See the D2D ecosystem in the news.</p>
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
-              <Link 
-                href="https://x.com/d2d_hq" 
-                className="text-[16px] font-medium text-gray-900 hover:text-blue-600 transition-colors"
-                target="_blank"
-              >
-                D2D on Twitter / X →
-              </Link>
-              <Link 
-                href="https://t.me/d2d_hq" 
-                className="text-[16px] font-medium text-gray-900 hover:text-blue-600 transition-colors"
-                target="_blank"
-              >
-                D2D on Telegram →
-              </Link>
-            </div>
-          </div>
-          
-          <div className="pt-12 border-t border-gray-200">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-[14px] text-gray-600">
-              <p>© {new Date().getFullYear()} D2D - Decentralize to deployment.</p>
-              <div className="flex items-center gap-6">
-                <Link href="https://x.com/d2d_hq" className="hover:text-gray-900 transition-colors" target="_blank">
-                  Twitter / X
-                </Link>
-                <Link href="https://t.me/d2d_hq" className="hover:text-gray-900 transition-colors" target="_blank">
-                  Telegram
-                </Link>
-                <Link href="mailto:coderhopham@gmail.com" className="hover:text-gray-900 transition-colors">
-                  Contact
-                </Link>
+            {/* Article Header - Better spacing */}
+            <header className="mb-12">
+              {/* Categories */}
+              {(post.category || (post.tags && post.tags.length > 0)) && (
+                <div className="flex items-center gap-2 mb-6 flex-wrap">
+                  {post.category && (
+                     <span className="text-xs font-bold tracking-wider uppercase text-blue-600 bg-blue-50 px-2 py-1 rounded-md">
+                      {post.category}
+                    </span>
+                  )}
+                  {post.tags && post.tags.slice(0, 2).map((tag, idx) => (
+                    <span key={tag} className="text-xs font-bold tracking-wider uppercase text-gray-500 bg-gray-100 px-2 py-1 rounded-md">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+              
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-[1.1] mb-8 tracking-tight">
+                {post.title}
+              </h1>
+              
+              {/* Author & Meta - Better layout */}
+              <div className="flex items-center gap-4 text-sm text-gray-500 pb-8 border-b border-gray-100">
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  <span className="font-bold text-gray-900">{post.author}</span>
+                  <span className="text-gray-300">•</span>
+                  <time dateTime={post.publishedAt} className="font-medium">{formattedDate}</time>
+                  <span className="text-gray-300">•</span>
+                  <span className="font-medium">{readTime}</span>
+                </div>
               </div>
+            </header>
+
+            {/* Article Content - MDX rendered */}
+            <article className="prose prose-lg prose-blue max-w-none hover:prose-a:text-blue-500">
+              <div className="blog-content-light">
+                <ReactMarkdown
+                  rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                >
+                  {post.content.replace(
+                    /D2D Team/g,
+                    '<span class="d2d-team-with-logo"><img src="/favicon.svg" alt="D2D logo" class="d2d-team-logo" />D2D Team</span>'
+                  )}
+                </ReactMarkdown>
+              </div>
+            </article>
+
+            {/* Article Footer - Better spacing */}
+            <div className="mt-20 pt-10 border-t border-gray-100">
+              <Link 
+                href="/blog"
+                className="inline-flex items-center gap-2 text-base font-bold text-gray-900 hover:text-blue-600 transition-colors group"
+              >
+                <span className="transition-transform duration-200 group-hover:-translate-x-1">←</span>
+                <span>Back to Overview</span>
+              </Link>
             </div>
           </div>
-        </div>
-      </footer>
-    </div>
+        </main>
+
+        <Footer />
+      </div>
     </>
   );
 }
