@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { FeatureRow } from './FeatureRow';
 
 export function ProblemSection() {
@@ -10,17 +12,68 @@ export function ProblemSection() {
       highlightUnderline={true}
       visual={
         <div className="relative h-[300px] w-full flex items-center justify-center p-8">
-            <div className="absolute inset-0 bg-red-500/5 blur-[100px] rounded-full" />
-            <div className="relative z-10 text-center space-y-4">
-              <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-red-100 mb-4 border-4 border-white shadow-xl">
-                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-red-500">
-                  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M15 9L9 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M9 9L15 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                 </svg>
+            {/* Heat Haze / Glow background */}
+            <div className="absolute inset-0 bg-red-500/10 blur-[120px] rounded-full animate-pulse" />
+            
+            <div className="relative z-10 text-center">
+              {/* Money Evaporating Animation */}
+              <div className="relative mb-8 h-40 w-40 mx-auto flex items-center justify-center">
+                {/* Floating Dollar Signs */}
+                {[...Array(6)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 10, x: (i - 2.5) * 20, scale: 0.5 }}
+                    animate={{ 
+                      opacity: [0, 0.8, 0], 
+                      y: -120, 
+                      x: (i - 2.5) * 25 + Math.sin(i) * 25,
+                      scale: [0.5, 1.2, 0.8]
+                    }}
+                    transition={{ 
+                      duration: 2 + Math.random() * 2, 
+                      repeat: Infinity, 
+                      delay: i * 0.4,
+                      ease: "easeOut"
+                    }}
+                    className="absolute inset-0 flex items-center justify-center text-red-500 font-bold text-3xl"
+                  >
+                    $
+                  </motion.div>
+                ))}
+
+                {/* Central Icon: Web Development Image Replacement */}
+                <motion.div 
+                  initial={{ scale: 0.95, y: 0 }}
+                  animate={{ 
+                    scale: [0.95, 1, 0.95],
+                    y: [0, -5, 0]
+                  }}
+                  transition={{ 
+                    duration: 4, 
+                    repeat: Infinity, 
+                    ease: "easeInOut" 
+                  }}
+                  className="relative w-36 h-36 z-20"
+                >
+                  <Image
+                    src="/web-development.png"
+                    alt="Web Development Icon"
+                    fill
+                    className="object-contain drop-shadow-[0_15px_35px_rgba(239,68,68,0.25)]"
+                  />
+                </motion.div>
               </div>
-              <div className="text-xl font-bold text-gray-900">$1,000+ Rent Cost</div>
-              <p className="text-sm text-gray-500">For a single program deployment</p>
+
+              {/* Text Label with high contrast */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="space-y-1"
+              >
+                <div className="text-2xl font-black text-gray-900 tracking-tight">$1,000+ Rent Cost</div>
+                <p className="text-sm font-medium text-gray-500">For a single program deployment</p>
+              </motion.div>
             </div>
         </div>
       }

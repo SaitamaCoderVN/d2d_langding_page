@@ -28,7 +28,7 @@ export default function LandingPage() {
       
       <div className="relative z-20">
         <Header />
-        <main className="space-y-0 pb-12">
+        <main className="space-y-0">
           <HeroSection />
           <VideoSection />
           <ProblemSection />

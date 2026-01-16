@@ -27,7 +27,7 @@ export function FeatureRow({
   const isLeft = orientation === 'left';
 
   return (
-    <section className="py-8 md:py-16 relative bg-transparent">
+    <section className="py-8 md:py-12 relative bg-transparent">
       <div className="container-main grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
         {/* Text Content */}
         <motion.div 

@@ -5,8 +5,9 @@ import { Toaster } from 'react-hot-toast'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 export const metadata: Metadata = {
-  title: 'D2D - Decentralized Deployment Platform',
-  description: 'Deploy Solana programs to mainnet for just $5. Launching November 2, 2025.',
+  metadataBase: new URL('https://deployd2d.xyz'),
+  title: 'D2D | Deploy to Solana for $5',
+  description: 'Deploy your Solana programs for the cost of a coffee. Skip the $1,000+ rent barrier with liquidity recycling.',
   icons: {
     icon: '/favicon.svg',
     shortcut: '/favicon.svg',

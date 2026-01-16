@@ -12,14 +12,6 @@ const TOOLS = [
         <path d="M12 19H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     ),
-    visual: (
-      <div className="w-full h-full bg-[#1e1e1e] p-4 font-mono text-xs text-green-400 overflow-hidden relative">
-        <p>{`> d2d deploy`}</p>
-        <p className="text-gray-400">Verifying build...</p>
-        <p className="text-blue-400 pb-8">Success (2.4s)</p>
-        <div className="absolute bottom-0 right-0 w-16 h-16 bg-gradient-to-tl from-green-500/20 to-transparent blur-xl"></div>
-      </div>
-    ),
     color: 'bg-green-500'
   },
   {
@@ -30,15 +22,6 @@ const TOOLS = [
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
          <path d="M16.5 9.4L7.5 4.21C6.0628 3.38 5.34419 2.96501 5.34419 2.96501C5.34419 2.96501 5.34419 2.96501 5.34419 11.265C5.34419 19.565 5.34419 19.565 5.34419 19.565C5.34419 19.565 6.0628 19.15 7.5 18.32L16.5 13.12C17.9372 12.29 18.6558 11.875 18.6558 11.26C18.6558 10.645 17.9372 10.23 16.5 9.4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
-    ),
-    visual: (
-      <div className="w-full h-full bg-[#1e1e1e] p-4 text-xs overflow-hidden relative">
-         <div className="text-purple-400">import <span className="text-white">{`{ Client }`}</span></div>
-         <div className="text-white mt-2">await client.deploy({`{`}</div>
-         <div className="text-green-400 ml-2">net: 'mainnet'</div>
-         <div className="text-white">{'}'})</div>
-         <div className="absolute bottom-0 right-0 w-16 h-16 bg-gradient-to-tl from-purple-500/20 to-transparent blur-xl"></div>
-      </div>
     ),
     color: 'bg-purple-500'
   },
@@ -53,17 +36,6 @@ const TOOLS = [
         <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2"/>
         <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2"/>
       </svg>
-    ),
-    visual: (
-      <div className="w-full h-full bg-white border border-gray-100 p-2 relative">
-          <div className="w-full h-2 bg-gray-100 rounded mb-2"></div>
-          <div className="w-2/3 h-2 bg-gray-100 rounded mb-4"></div>
-          <div className="grid grid-cols-2 gap-2">
-             <div className="h-12 bg-blue-50 rounded"></div>
-             <div className="h-12 bg-blue-50 rounded"></div>
-          </div>
-          <div className="absolute bottom-0 right-0 w-16 h-16 bg-gradient-to-tl from-blue-500/10 to-transparent blur-xl"></div>
-      </div>
     ),
     color: 'bg-blue-500'
   }
@@ -99,19 +71,19 @@ export function ToolsGridSection() {
               {/* Subtle Gradient Overlay on Hover */}
               <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none ${tool.color}`} />
               
-              {/* Top Half: Visual */}
-              <div className="h-48 w-full border-b border-gray-50 relative overflow-hidden group-hover:scale-105 transition-transform duration-500">
-                {tool.visual}
-              </div>
+
               
               {/* Bottom Half: Content */}
               <div className="p-6 space-y-4 relative z-10">
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-white ${tool.color} shadow-lg shadow-current/20`}>
-                   {tool.icon}
+                <div className="flex items-center gap-4">
+                  <div className={`w-10 h-10 shrink-0 rounded-lg flex items-center justify-center text-white ${tool.color} shadow-lg shadow-current/20`}>
+                     {tool.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{tool.title}</h3>
                 </div>
+                
                 <div>
-                   <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{tool.title}</h3>
-                   <p className="text-sm text-gray-500 mt-2 leading-relaxed">
+                   <p className="text-sm text-gray-500 leading-relaxed">
                      {tool.description}
                    </p>
                 </div>
