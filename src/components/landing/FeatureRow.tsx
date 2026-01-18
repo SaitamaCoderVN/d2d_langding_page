@@ -27,30 +27,30 @@ export function FeatureRow({
   const isLeft = orientation === 'left';
 
   return (
-    <section className="py-8 md:py-12 relative bg-transparent">
-      <div className="container-main grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
+    <section className="py-12 md:py-16 relative bg-transparent overflow-hidden">
+      <div className="container-main grid gap-10 md:gap-12 lg:grid-cols-2 lg:gap-16 items-center">
         {/* Text Content */}
         <motion.div 
-          className={`space-y-6 ${isLeft ? 'order-1' : 'order-1 lg:order-2'}`}
+          className={`space-y-4 md:space-y-6 ${isLeft ? 'order-1' : 'order-1 lg:order-2'}`}
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
           {subtitle && (
-            <span className="text-sm font-bold tracking-widest uppercase text-blue-600">
+            <span className="text-[10px] md:text-sm font-bold tracking-[0.2em] uppercase text-blue-600">
               {subtitle}
             </span>
           )}
           
           <div className="relative">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.1]">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.15] md:leading-[1.1]">
               {title}
               {highlightUnderline && (
-                <span className="relative inline-block ml-2 md:ml-0 md:block w-full">
+                <span className="relative inline-block ml-1 sm:ml-2 md:ml-0 md:block w-full">
                    {/* Squiggle SVG */}
                    <svg 
-                    className="absolute -bottom-2 md:-bottom-4 left-0 w-full h-3 md:h-4 text-blue-500" 
+                    className="absolute -bottom-1 sm:-bottom-2 md:-bottom-4 left-0 w-full h-2 md:h-4 text-blue-500" 
                     viewBox="0 0 200 9" 
                     fill="none" 
                     xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@ export function FeatureRow({
             </h2>
           </div>
 
-          <p className="text-lg md:text-xl text-gray-500 leading-relaxed max-w-lg">
+          <p className="text-base md:text-xl text-gray-500 leading-relaxed max-w-lg">
             {description}
           </p>
 
@@ -71,7 +71,7 @@ export function FeatureRow({
             <div className="pt-2">
               <a 
                 href={ctaLink} 
-                className="inline-flex items-center text-blue-600 font-bold hover:text-blue-700 transition-colors group"
+                className="inline-flex items-center text-blue-600 font-bold hover:text-blue-700 transition-colors group text-sm md:text-base"
               >
                 {ctaText} 
                 <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>

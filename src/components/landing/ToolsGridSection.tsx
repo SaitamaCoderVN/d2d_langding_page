@@ -44,19 +44,19 @@ const TOOLS = [
 export function ToolsGridSection() {
   return (
     <section className="py-12 md:py-20 bg-transparent relative">
-      <div className="container-main space-y-10">
+      <div className="container-main space-y-8 md:space-y-12">
         
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900">
+        <div className="text-center max-w-3xl mx-auto space-y-3 md:space-y-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
              Explore D2D Tools.
           </h2>
-           <p className="text-xl text-gray-500">
+           <p className="text-base sm:text-lg md:text-xl text-gray-500">
             Everything you need to ship, from terminal to dashboard.
           </p>
         </div>
 
         <motion.div 
-          className="grid gap-6 md:grid-cols-3"
+          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
@@ -71,19 +71,17 @@ export function ToolsGridSection() {
               {/* Subtle Gradient Overlay on Hover */}
               <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none ${tool.color}`} />
               
-
-              
               {/* Bottom Half: Content */}
-              <div className="p-6 space-y-4 relative z-10">
+              <div className="p-6 md:p-8 space-y-4 relative z-10">
                 <div className="flex items-center gap-4">
-                  <div className={`w-10 h-10 shrink-0 rounded-lg flex items-center justify-center text-white ${tool.color} shadow-lg shadow-current/20`}>
+                  <div className={`w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-xl flex items-center justify-center text-white ${tool.color} shadow-lg shadow-current/20`}>
                      {tool.icon}
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{tool.title}</h3>
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{tool.title}</h3>
                 </div>
                 
                 <div>
-                   <p className="text-sm text-gray-500 leading-relaxed">
+                   <p className="text-sm md:text-base text-gray-500 leading-relaxed">
                      {tool.description}
                    </p>
                 </div>
